@@ -86,12 +86,10 @@ var color = new THREE.MeshLambertMaterial({
 // idk
 function updateLine() {
   var geometry = new THREE.Geometry();
-    geometry.vertices.push( new THREE.Vector3( 0, 0, 0) );
-    for(var i=0; i<100; i+=10) {
-        geometry.vertices.push(
-            new THREE.Vector3(i,i,i)
-        );
-  }
+  geometry.vertices.push( new THREE.Vector3( 0, 0, 0) );
+  
+  let a = pose.map (x => x / 100)
+  geometry.vertices.push( new THREE.Vector3( a ));
   addLine(geometry);
 }
 

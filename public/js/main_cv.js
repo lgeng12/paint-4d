@@ -1,4 +1,5 @@
 var video, canvas, context, imageData, detector, posit;
+var pose;
 var modelSize = 50.0; //millimeters
 
 function onLoad() {
@@ -117,7 +118,8 @@ function drawId(markers) {
 }
 
 function updateScenes(markers) {
-  var corners, corner, pose, i;
+  // var corners, corner, pose, i;
+  var corners, corner, i;
 
   if (markers.length > 0) {
     corners = markers[0].corners;
