@@ -62,3 +62,10 @@ footer {
   transform: scale(-1, 1);
   filter: FlipH;
 }
+
+#tracker {
+  width: 100%;
+  background-image: url(assets/aruco-1023.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+}

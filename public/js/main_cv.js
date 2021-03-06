@@ -133,7 +133,8 @@ function updateScenes(markers) {
 
     pose = posit.pose(corners);
     var coord = pose.bestTranslation;
-    var id = corners.
+    var id = markers[0].id;
+    var pen_on = id != 1023;
 
     console.log("Coordinates of phone: " + coord);
   }
