@@ -20,7 +20,7 @@ var io = require('socket.io')(server);
 var lines = []; // everyone's data
 // format:
 // [
-//  {points: [[x1, y1, x1], [x2, y2, x2], ..., [xn, yn, zn]], color: '#abcdef'},
+//  {points: THREE.Vector3(), color: '#abcdef'},
 //  {points: [array of coords], color: '#abcdef'},
 //  {points: [array of coords], color: '#abcdef'},
 //  {points: [array of coords], color: '#abcdef'},

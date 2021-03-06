@@ -37,10 +37,10 @@ var axesHelper = new THREE.AxesHelper(250);
 scene.add(axesHelper);
 
 // idk
-function addLine (geometry) {
-  let line = new THREE.Line(geometry, line_mat);
-  scene.add(line);
-}
+// function addLine (geometry) {
+//   let line = new THREE.Line(geometry, line_mat);
+//   scene.add(line);
+// }
 
 ///////////////////////////////////////////////// MATERIALS
 
@@ -83,28 +83,50 @@ var color = new THREE.MeshLambertMaterial({
 
 ///////////////////////////////////////////////// ANIMATE LOOP
 
-// idk
-var geometry = new THREE.Geometry();
-geometry.vertices.push( new THREE.Vector3(0, 0, 0) )
+// // idk
+// var geometry = new THREE.Geometry();
+// geometry.vertices.push( new THREE.Vector3(0, 0, 0) )
 
-function updateLines() {  
-  if (pose !== undefined) {
-    let a = pose.bestTranslation;
-    a = a.map(x => Math.abs(x));
-    a[0] = a[0]/10;
-    a[1] = a[1]/10;
-    a[2] = (a[2] - 100)/80;
-    let diff = Math.abs(geometry.vertices[geometry.vertices.length-1].toArray().reduce((a, b) => a + b) - a.reduce((a, b) => a + b));
-    console.log(diff);
-    console.log(a);
-    console.log(geometry.vertices.length)
+// function updateLines() {  
+//   if (pose !== undefined) {
+//     let a = pose.bestTranslation;
+//     a = a.map(x => Math.abs(x));
+//     a[0] = a[0]/10;
+//     a[1] = a[1]/10;
+//     a[2] = (a[2] - 100)/80;
+//     let diff = Math.abs(geometry.vertices[geometry.vertices.length-1].toArray().reduce((a, b) => a + b) - a.reduce((a, b) => a + b));
+//     console.log(diff);
+//     console.log(a);
+//     console.log(geometry.vertices.length)
 
-    if (geometry.vertices.length === 0 || diff > 0.5) {
-      geometry.vertices.push( new THREE.Vector3( a[0], a[1], a[2] ));
+//     if (geometry.vertices.length === 0 || diff > 0.5) {
+//       geometry.vertices.push( new THREE.Vector3( a[0], a[1], a[2] ));
+//     }
+//   }
+//   // addLine(geometry);
+//   scene.add(new THREE.Line(geometry, line_mat));
+// }
+
+function updateAssembly( play ) { // updates position of each sphere and path points
+  for (var k = 0; k < ass.speed; k++) {
+    if (play) ass.update();
+    for (var i = 0; i < ass.size; i++) {
+      var tmp = new THREE.Vector3(0,0,0);
+      for (var j = 0; j < i; j++) {
+        tmp.addVectors(tmp, ass.balls[j].pos);
+      }
+      spheres[i].position.set(tmp.x, tmp.y, tmp.z);
+      if (play) {
+      // if (play && i == ass.size-1) {
+        tmp.addVectors(tmp, ass.balls[i].pos);
+        path.geometry.attributes.position.array[index++] = tmp.x;
+        path.geometry.attributes.position.array[index++] = tmp.y;
+        path.geometry.attributes.position.array[index++] = tmp.z;
+        drawCount++;
+        path.geometry.setDrawRange(0, drawCount);
+      }
     }
   }
-  // addLine(geometry);
-  scene.add(new THREE.Line(geometry, line_mat));
 }
 
 function animate() {
@@ -119,7 +141,7 @@ function animate() {
   //   updateAssembly( guiControls.play );
   //   if (index != -1) path.geometry.attributes.position.needsUpdate = true;
 
-  updateLines();
+  // updateLines();
   
   renderer.render(scene, camera);
 }
