@@ -44,6 +44,5 @@ window.addEventListener("load", () => {
 
 function change_picture() {
   let name = document.getElementById("icon").src;
-  alert(name);
-  document.getElementById("icon").src = (name.endsWith("assets/aruco-1023.svg") ? "assets/aruco-1023.svg" : "assets/aruco-220.svg");
+  document.getElementById("icon").src = (name.endsWith("assets/aruco-1023.svg") ? "assets/aruco-220.svg" : "assets/aruco-1023.svg");
 }

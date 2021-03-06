@@ -71,7 +71,7 @@ function snapshot() {
 function drawCorners(markers) {
   var corners, corner, i, j;
 
-  context.lineWidth = 3;
+  context.lineWidth = 10;
 
   for (i = 0; i !== markers.length; ++i) {
     corners = markers[i].corners;
@@ -133,6 +133,7 @@ function updateScenes(markers) {
 
     pose = posit.pose(corners);
     var coord = pose.bestTranslation;
+    var id = corners.
 
     console.log("Coordinates of phone: " + coord);
   }

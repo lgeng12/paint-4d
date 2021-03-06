@@ -48,6 +48,15 @@ scene.add(axesHelper);
 //    ...
 // ]
 
+let cur_line;
+var cur_id = 'dhfaskgfjdsfla'
+cur_line = {id: cur_id, points: new Float32Array(3), color: '#abcdef', width: 1};
+
+function updateCoordinateList(coord) {
+  cur_line.points.push(coord);
+  updateLine(cur_line)
+}
+
 function updateLine(line) { // updates lines passed from servers
   
   var obj = scene.getObjectByName(line.id)
