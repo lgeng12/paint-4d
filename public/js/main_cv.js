@@ -4,9 +4,12 @@ function onLoad() {
   video = document.getElementById("video");
   canvas = document.getElementById("canvas");
   context = canvas.getContext("2d");
+  
+  canvas.width = 1920;
+  canvas.height = 1080;
+  context.translate(canvas.width, 0);
+  context.scale(-1, 1);
 
-  canvas.width = parseInt(canvas.style.width);
-  canvas.height = parseInt(canvas.style.height);
 
   if (navigator.mediaDevices === undefined) {
     navigator.mediaDevices = {};
@@ -30,7 +33,7 @@ function onLoad() {
   }
 
   navigator.mediaDevices
-    .getUserMedia({ video: true })
+    .getUserMedia({ video: { width: 1920, height: 1080 } })
     .then(function(stream) {
       if ("srcObject" in video) {
         video.srcObject = stream;
