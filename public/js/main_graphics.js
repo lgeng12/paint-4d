@@ -26,7 +26,7 @@ var directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
 directionalLight.position = (1, 1, 1);
 scene.add(directionalLight);
 
-var renderer = new THREE.WebGLRenderer({antialias: true});
+var renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
 // var renderer = new THREE.SVGRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
@@ -114,18 +114,22 @@ function updateAllLines(lines) {
 
 function updateSphere(id, coords) {
   // var obj = scene.getObjectByName(id);
-  var object = window[id];
+  var obj = window[id];
   
-  //if (obj === undefined) {
+  if (obj == undefined) {
     var sphere_geometry = new THREE.SphereGeometry(1);
     window[id] = new THREE.Mesh(sphere_geometry, new THREE.MeshBasicMaterial( {color: 0xff00ff} ));
     scene.add(window[id]);
-  //}
-  //else {
-    console.log("foo");
-    window[id].position = coords;
-    // window[id].geometry.position.set(coords[0], coords[1], coords[2]);
-  }//
+  }
+  else {
+    var cam_mat = camera.matrixWorld;
+    var coordinate = new THREE.Vector3(-coords[0], coords[1], coords[2]);
+    var new_coord = coordinate.applyMatrix4(cam_mat);
+    console.log(new_coord);
+    window[id].position.x = new_coord.x;
+    window[id].position.y = new_coord.y;
+    window[id].position.z = new_coord.z;
+  }
 }
 
 ///////////////////////////////////////////////// GUI CONTROLS
