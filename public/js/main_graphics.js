@@ -84,13 +84,15 @@ var color = new THREE.MeshLambertMaterial({
 ///////////////////////////////////////////////// ANIMATE LOOP
 
 // idk
-function updateLine() {
+function updateLines() {
   var geometry = new THREE.Geometry();
   geometry.vertices.push( new THREE.Vector3( 0, 0, 0) );
   
-  if (typeof pose !== undefined) {
+  if (pose !== undefined) {
     let a = pose.bestTranslation;
-    geometry.vertices.push( new THREE.Vector3( a ));
+    a = a.map(x => Math.abs(x))
+    a = a.map(x => Math.max(x, 10))
+    geometry.vertices.push( new THREE.Vector3( a[2], a[0], a[1] ));
   }
   addLine(geometry);
 }
@@ -107,7 +109,7 @@ function animate() {
   //   updateAssembly( guiControls.play );
   //   if (index != -1) path.geometry.attributes.position.needsUpdate = true;
 
-  updateLine();
+  updateLines();
   
   renderer.render(scene, camera);
 }

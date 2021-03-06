@@ -1,8 +1,6 @@
 // server.js
 // this is the "hub" where player's data got sent to each other
 
-const MAX_PLAYERS = 16; // maximum number of players
-
 // express (https://expressjs.com/) is a simple node.js framework for writing servers
 const express = require("express");
 const app = express();
@@ -19,8 +17,9 @@ var io = require('socket.io')(server);
 // to send a message:               socket.emit(title,data);
 // to deal with a received message: socket.on(title,function(data){ frob(data); })
 
-var serverData = {}; // everyone's data
-var numPlayers = 0; // current number of players
+var coords = {}; // everyone's data
+
+
 
 console.log("listening...")
 
@@ -31,19 +30,16 @@ function newConnection(socket) {
 
   console.log('new connection: ' + socket.id);
 
-  // if there're too many players, reject player's request to join
-  if (numPlayers >= MAX_PLAYERS) {
-    socket.emit("connection-reject");
-    return;
-  }
-  numPlayers++;
-
   // ok you're in
   socket.emit("connection-approve");
 
   // what to do when client sends us a message titled 'client-update'
   socket.on('client-update', function (data) {
-    serverData[socket.id] = data;
+    // Data packet format:
+    // {type: 'coord'|'other', data: [the data]}
+    
+    
+    // CASEY
   })
 
   // every couple milliseconds we send to this client
