@@ -37,8 +37,8 @@ screen.orientation.addEventListener("change", () => {
 });
 
 window.addEventListener("load", () => {
-  show();
-  updateDetails(document.getElementById("button"));
+  //show();
+  openFullscreen();
 });
 
 
@@ -49,5 +49,15 @@ function change_picture() {
   var name = tracker.style.backgroundImage;
   tracker.style.backgroundImage = name.endsWith("assets/aruco-220.svg\")") ? "url(\"assets/aruco-1023.svg\")" : "url(\"assets/aruco-220.svg\")";
   tracker.innerHTML = name.endsWith("assets/aruco-220.svg\")") ? "OFF" : "ON";
+  openFullscreen();
 }
 
+var elem = document.documentElement;
+/* View in fullscreen */
+function openFullscreen() {
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.webkitRequestFullscreen) { /* Safari */
+    elem.webkitRequestFullscreen();
+  }
+}
