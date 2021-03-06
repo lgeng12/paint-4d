@@ -1,13 +1,13 @@
-var video, canvas, context, imageData, detector;
+var video, canvas, context, imageData, detector, posit;
+var modelSize = 50.0; //millimeters
 
 function onLoad() {
   video = document.getElementById("video");
   canvas = document.getElementById("canvas");
   context = canvas.getContext("2d");
-  
+
   canvas.width = 1280;
   canvas.height = 720;
-
 
   if (navigator.mediaDevices === undefined) {
     navigator.mediaDevices = {};
@@ -44,6 +44,7 @@ function onLoad() {
     });
 
   detector = new AR.Detector();
+  posit = new POS.Posit(modelSize, canvas.width);
 
   requestAnimationFrame(tick);
 }
@@ -57,6 +58,7 @@ function tick() {
     var markers = detector.detect(imageData);
     drawCorners(markers);
     drawId(markers);
+    updateScenes(markers);
   }
 }
 
@@ -111,6 +113,25 @@ function drawId(markers) {
     }
 
     context.strokeText(markers[i].id, x, y);
+  }
+}
+
+function updateScenes(markers) {
+  var corners, corner, pose, i;
+
+  if (markers.length > 0) {
+    corners = markers[0].corners;
+
+    for (i = 0; i < corners.length; ++i) {
+      corner = corners[i];
+
+      corner.x = corner.x - canvas.width / 2;
+      corner.y = canvas.height / 2 - corner.y;
+    }
+
+    pose = posit.pose(corners);
+    coords = pose.bestTranslation;
+    console.log("Coordinates of phone: " + coords);
   }
 }
 
