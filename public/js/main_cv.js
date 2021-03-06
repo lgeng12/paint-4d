@@ -117,7 +117,21 @@ function drawId(markers) {
   }
 }
 
-var 
+// copied from codehandbook.org
+function generate_random_string(string_length){
+    let random_string = '';
+    let random_ascii;
+    for(let i = 0; i < string_length; i++) {
+        random_ascii = Math.floor((Math.random() * 25) + 97);
+        random_string += String.fromCharCode(random_ascii)
+    }
+    return random_string
+}
+
+
+var time_for_new_line = true;
+var line_id = "firstline";
+const id_length = 20;
 function updateScenes(markers) {
   // var corners, corner, pose, i;
   var corners, corner, i;
@@ -135,11 +149,21 @@ function updateScenes(markers) {
     pose = posit.pose(corners);
     var coord = pose.bestTranslation;
     var id = markers[0].id;
-    var pen_on = id != 1023;
     
-    updateCoordinateList('fdkldfpahdfhdskjfa', coord);
-
-    console.log("Coordinates of phone: " + coord);
+    let pen_on = id != 1023;
+    
+    if (!pen_on) {
+      time_for_new_line = true;
+    }
+    
+    else {
+      if (time_for_new_line) {
+        time_for_new_line === false;
+        line_id = generate_random_string(id_length);
+      }
+      updateCoordinateList(line_id, coord);
+    }
+    // console.log("Coordinates of phone: " + coord);
   }
 }
 

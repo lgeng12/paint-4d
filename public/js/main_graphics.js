@@ -60,7 +60,6 @@ function updateCoordinateList(id, coord) {
   }
   
   var cur_line = clientData[id]
-  // console.log(id);
   cur_line.points.push(coord[0]);
   cur_line.points.push(coord[1]);
   cur_line.points.push(coord[2]);
@@ -87,20 +86,20 @@ function updateLine(id, line) { // updates lines passed from servers
   } 
   else { // if exists, update geometry
     
-    window[line.id].material.color = new THREE.Color( 0xffffff );         
-    window[line.id].material.needsUpdate = true;
+    window[id].material.color = new THREE.Color( 0xffffff );         
+    window[id].material.needsUpdate = true;
     
     for (var i = 0; i < line.points.length; i++) {
       var tmp = line.points[i];
-      window[line.id].geometry.attributes.position.array[i] = tmp.x;
-      window[line.id].geometry.attributes.position.array[i+1] = tmp.y;
-      window[line.id].geometry.attributes.position.array[i+2] = tmp.z;
+      window[id].geometry.attributes.position.array[i] = tmp.x;
+      window[id].geometry.attributes.position.array[i+1] = tmp.y;
+      window[id].geometry.attributes.position.array[i+2] = tmp.z;
     }
   }
   
   // Notify all other clients of updates
   // 'falaehflbnabu': {points: THREE.Vector3(), color: '#abcdef', width: 1},
-  socket.emit('client-update', window[line.id])
+  socket.emit('client-update', window[id])
 }
 
 function updateAllLines(lines) {

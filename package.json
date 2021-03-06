@@ -10,6 +10,8 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "socket.io": "^3.1.1"
