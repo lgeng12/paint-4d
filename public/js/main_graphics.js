@@ -59,14 +59,14 @@ function updateCoordinateList(id, coord) {
     clientData[id] = {points: [], color: '#ff0000', width: 1}
   }
   
-  var mat = camera.matrixWorld;
-  var coordinate = THREE.Vector(coord[0], coord[1], coord[2])
-  
+  var cam_mat = camera.matrixWorld;
+  var coordinate = new THREE.Vector3(coord[0], coord[1], coord[2]);
+  var new_coord = coordinate.applyMatrix4(cam_mat);
   
   var cur_line = clientData[id]
-  cur_line.points.push(coord[0]);
-  cur_line.points.push(coord[1]);
-  cur_line.points.push(coord[2]);
+  cur_line.points.push(new_coord.x);
+  cur_line.points.push(new_coord.y);
+  cur_line.points.push(new_coord.z);
   updateLine(id, cur_line)
 }
 

@@ -1,6 +1,6 @@
 /* this file is loaded by index.html and styles the page */
 
-* {
+/* * {
   box-sizing: border-box;
 }
 
@@ -53,7 +53,7 @@ footer {
   margin-top: 3em;
   padding-top: 1.5em;
   border-top: 1px solid lightgrey;
-}
+} */
 
 #canvas {
   -moz-transform: scale(-1, 1);
@@ -71,4 +71,5 @@ footer {
   flex-grow: 1;
   text-align: center;
   font-size: 5em;
+  margin: 10em;
 }
