@@ -85,11 +85,11 @@ var color = new THREE.MeshLambertMaterial({
 
 // format:
 // [
-//  {id: ???, points: THREE.Vector3(), color: '#abcdef'},
-//  {id: ???, points: [array of coords], color: '#abcdef'},
-//  {id: ???, points: [array of coords], color: '#abcdef'},
-//  {id: ???, points: [array of coords], color: '#abcdef'},
-//  {id: ???, points: [array of coords], color: '#abcdef'},
+//  {id: ???, length: __, points: THREE.Vector3(), color: '#abcdef', width: 1},
+//  {id: ???, length: __, points: [array of coords], color: '#abcdef', width: 1},
+//  {id: ???, length: __, points: [array of coords], color: '#abcdef', width: 1},
+//  {id: ???, length: __, points: [array of coords], color: '#abcdef', width: 1},
+//  {id: ???, length: __, points: [array of coords], color: '#abcdef', width: 1},
 //    ...
 // ]
 
@@ -97,16 +97,28 @@ function updateLine(line) { // updates lines passed from servers
   
     //  WE NEED A WAY TO ID IF A THREE.LINE has been created
   
-  //     If not created, create
-  if (scene.getObjectByProperty())
-  
-  //   if exists, update geometry
-  
+  var obj = scene.getObjectByName(line.id)
+  if (!obj) { // If not created, create
+    
+    var line_mat = new THREE.LineBasicMaterial({
+      color: line.color,
+      linewidth: line.width
+    });
     var line_geometry = new THREE.BufferGeometry();
-    var positions = new Float32Array( MAX_POINTS * 3 ); // 3 vertices per point
+    var positions = new Float32Array.from(line.points);
     line_geometry.setAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
-    var path = new THREE.Line(line_geometry, line_mat);
-    scene.add( path );
+    obj = new THREE.Line(line_geometry, line_mat);
+    scene.add( obj );
+    
+  } 
+  else { // if exists, update geometry
+    for (var i = 0; i < line.length; i++) {
+      tmp = line.points[i];
+      path.geometry.attributes.position.array[i] = tmp.x;
+      path.geometry.attributes.position.array[i+1] = tmp.y;
+      path.geometry.attributes.position.array[i+2] = tmp.z;
+    }
+  }
 }
 
 function animate() {
