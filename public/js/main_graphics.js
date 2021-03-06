@@ -32,6 +32,8 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 renderer.setClearColor(0xd1e3ff, 1);
 
+var gridHelper = new THREE.GridHelper( 100, 10, 0xffffff, 0xffffff);
+scene.add( gridHelper );
 var controls = new THREE.OrbitControls(camera, renderer.domElement);
 var axesHelper = new THREE.AxesHelper(250);
 scene.add(axesHelper);
@@ -52,7 +54,12 @@ socket.on("server-update", function(packet) {
 });
 
 function updateCoordinateList(id, coord) {
-  var cur_line = clientData.lines[id]
+  
+  if (clientData[id] == undefined) {
+    clientData[id] = {points: [], color: '#ff0000'}
+  }
+  
+  var cur_line = clientData[id]
   cur_line.points.push(coord);
   updateLine(cur_line)
 }
@@ -125,7 +132,7 @@ function animate() {
   //   updateAssembly( guiControls.play );
   //   if (index != -1) path.geometry.attributes.position.needsUpdate = true;
 
-  updateLines();
+  //   updateLines();
   
   renderer.render(scene, camera);
 }
