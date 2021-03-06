@@ -23,7 +23,7 @@ var renderer = new THREE.WebGLRenderer();
 // var renderer = new THREE.SVGRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
-renderer.setClearColor( 0xffffff, 1 );
+renderer.setClearColor( 0xd1e3ff, 1 );
 
 var controls = new THREE.OrbitControls(camera, renderer.domElement);
 var axesHelper = new THREE.AxesHelper( 250 );
@@ -62,14 +62,14 @@ var color = new THREE.MeshLambertMaterial( {
 
 ///////////////////////////////////////////////// GUI CONTROLS
 
-var guiControls = new function() {
-  this.speed = 1;
-  this.weight = 0.1;
-}
+// var guiControls = new function() {
+//   this.speed = 1;
+//   this.weight = 0.1;
+// }
 
-var gui = new dat.GUI();
-var changeSpeed = gui.add(guiControls, 'speed', 1, 10).step(1);
-var toggleAssembly = gui.add(guiControls, 'showAssembly');
+// var gui = new dat.GUI();
+// var changeSpeed = gui.add(guiControls, 'speed', 1, 10).step(1);
+// var toggleAssembly = gui.add(guiControls, 'showAssembly');
 
 
 ///////////////////////////////////////////////// ANIMATE LOOP
@@ -77,14 +77,14 @@ var toggleAssembly = gui.add(guiControls, 'showAssembly');
 function animate() {
   requestAnimationFrame( animate );
   
-  renderer.setClearColor( guiControls.background, 1 );
-  clear.color.setHex( guiControls.assembly );
-  clear2.color.setHex( guiControls.assembly );
-  line_mat.color.setHex( guiControls.stroke );
-  color.color.setHex( guiControls.stroke );
+//   renderer.setClearColor( guiControls.background, 1 );
+//   clear.color.setHex( guiControls.assembly );
+//   clear2.color.setHex( guiControls.assembly );
+//   line_mat.color.setHex( guiControls.stroke );
+//   color.color.setHex( guiControls.stroke );
 
-  updateAssembly( guiControls.play );
-  if (index != -1) path.geometry.attributes.position.needsUpdate = true; 
+//   updateAssembly( guiControls.play );
+//   if (index != -1) path.geometry.attributes.position.needsUpdate = true; 
 
   renderer.render( scene, camera );
 }
