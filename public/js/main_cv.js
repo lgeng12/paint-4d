@@ -133,7 +133,7 @@ function updateScenes(markers) {
 
     pose = posit.pose(corners);
     var coord = pose.bestTranslation;
-    // SHIVA
+
     console.log("Coordinates of phone: " + coord);
   }
 }

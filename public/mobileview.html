@@ -15,17 +15,14 @@
     <script src="js/mobileview.js" defer></script>
   </head>
   
-  <body onclick="change_picture()">
-    
-  <img src="assets/aruco-1023.svg" />
+  <body>
 
-  <center>
-    <button onclick="change_picture()">Click on this text!</button>
-    <button onclick="rotate(this)" id="button">Lock</button>
-    <button onclick="screen.orientation.unlock()">
-      Unlock
-    </button>
+  <center onclick="change_picture()">
+    <img src="assets/aruco-1023.svg" id="icon"/>
   </center>
+    
+  <button onclick="rotate(this)" id="button">Lock</button>
+  <button onclick="screen.orientation.unlock()">Unlock</button>
 
 </body>
              

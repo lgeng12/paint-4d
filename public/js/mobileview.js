@@ -43,5 +43,7 @@ window.addEventListener("load", () => {
 
 
 function change_picture() {
-  alert("wtf");
+  let name = document.getElementById("icon").src;
+  alert(name);
+  document.getElementById("icon").src = (name.endsWith("assets/aruco-1023.svg") ? "assets/aruco-1023.svg" : "assets/aruco-220.svg");
 }
