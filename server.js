@@ -4,14 +4,14 @@
 // express (https://expressjs.com/) is a simple node.js framework for writing servers
 const express = require("express");
 const app = express();
-var server = app.listen(process.env.PORT || 300);
+var server = app.listen(process.env.PORT || 3000 );
 
 // make all the files in 'public' available
 // https://expressjs.com/en/starter/static-files.html
 app.use(express.static("public"));
 
 // socket.io is a simple library for networking
-var io = require('socket.io')(server);
+var io = require("socket.io")(server);
 
 // socket.io quick start:
 // to send a message:               socket.emit(title,data);
@@ -28,28 +28,26 @@ var lines = []; // everyone's data
 //    ...
 // ]
 
-
-
-console.log("listening...")
+console.log("listening...");
 
 // what to do when there's a new player connection:
-io.sockets.on('connection', newConnection);
+io.sockets.on("connection", newConnection);
 function newConnection(socket) {
   // "socket" now refers to this particular new player's connection
 
-  console.log('new conection: ' + socket.id);
+  console.log("new conection: " + socket.id);
 
   // ok you're in
   socket.emit("connection-approve");
-  socket.emit('server-update', {lines: lines}); // Send current list of lines
+  socket.emit("server-update", { lines: lines }); // Send current list of lines
 
   // what to do when client sends us a message titled 'client-update'
-  socket.on('client-update', function (packet) {
+  socket.on("client-update", function(packet) {
     // Data packet format:
     // {type: 'lines'|'other', data: [the data]}
     // data is in the exact same format as lines
     // Assumption: lines in data are new and not already in lines
-    
+
     // CASEY
     // packet["type"] == 'lines'
     if (packet["type"] == "lines") {
@@ -57,23 +55,18 @@ function newConnection(socket) {
       var new_lines = packet["data"];
       lines.concat(new_lines);
     }
-    
-    
-    socket.emit('server-update', {lines: new_lines});
+
+    socket.emit("server-update", { lines: new_lines });
     // {coords: [coords array]}
-  })
+  });
 
   // every couple milliseconds we send to this client
   // the data of everybody else
 
   // setInterval(f,t) = run function f every t milliseconds
 
-
   //   // the client disconnected, let's wipe up after them
-  socket.on('disconnect', function () {
-    console.log(socket.id + ' disconnected');
+  socket.on("disconnect", function() {
+    console.log(socket.id + " disconnected");
   });
 }
-
-
-

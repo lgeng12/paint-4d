@@ -44,7 +44,10 @@ window.addEventListener("load", () => {
 
 // icon changing
 function change_picture() {
-  let name = document.getElementById("tracker").style.backgroundImage;
+  var tracker = document.getElementById("tracker");
   console.log(name);
-  document.getElementById("tracker").style.backgroundImage = name.endsWith("assets/aruco-220.svg\")") ? "url(\"assets/aruco-1023.svg\")" : "url(\"assets/aruco-220.svg\")";
+  var name = tracker.style.backgroundImage;
+  tracker.style.backgroundImage = name.endsWith("assets/aruco-220.svg\")") ? "url(\"assets/aruco-1023.svg\")" : "url(\"assets/aruco-220.svg\")";
+  tracker.innerHTML = name.endsWith("assets/aruco-220.svg\")") ? "OFF" : "ON";
 }
+
