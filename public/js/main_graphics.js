@@ -36,39 +36,54 @@ var controls = new THREE.OrbitControls(camera, renderer.domElement);
 var axesHelper = new THREE.AxesHelper(250);
 scene.add(axesHelper);
 
-// idk
-// function addLine (geometry) {
-//   let line = new THREE.Line(geometry, line_mat);
-//   scene.add(line);
-// }
-
-///////////////////////////////////////////////// MATERIALS
-
-var clear = new THREE.MeshLambertMaterial({
-  color: 0x000000,
-  transparent: true,
-  opacity: 0.25,
-  depthWrite: false
-});
-
-var clear2 = new THREE.MeshLambertMaterial({
-  color: 0x000000,
-  transparent: true,
-  opacity: 0.75,
-  depthWrite: false
-});
-
-var line_mat = new THREE.LineBasicMaterial({
-  color: 0xff0000,
-  linewidth: 1
-});
-
-var color = new THREE.MeshLambertMaterial({
-  color: 0xff8000,
-  wireframe: false
-});
-
 ///////////////////////////////////////////////// DATA STRUCTURES
+
+// format:
+// [
+//  {id: ???, points: THREE.Vector3(), color: '#abcdef', width: 1},
+//  {id: ???, points: [array of coords], color: '#abcdef', width: 1},
+//  {id: ???, points: [array of coords], color: '#abcdef', width: 1},
+//  {id: ???, points: [array of coords], color: '#abcdef', width: 1},
+//  {id: ???, points: [array of coords], color: '#abcdef', width: 1},
+//    ...
+// ]
+
+function updateLine(line) { // updates lines passed from servers
+  
+  var obj = scene.getObjectByName(line.id)
+  
+  if (!obj) { // If not created, create
+    
+    var line_mat = new THREE.LineBasicMaterial({
+      color: line.color,
+      linewidth: line.width
+    });
+    var line_geometry = new THREE.BufferGeometry();
+    var positions = new Float32Array.from(line.points);
+    line_geometry.setAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
+    window[line.id] = new THREE.Line(line_geometry, line_mat);
+    scene.add( window[line.id] );
+    
+  } 
+  else { // if exists, update geometry
+    
+    window[line.id].material.color = new THREE.Color( 0xffffff );         
+    window[line.id].material.needsUpdate = true;
+    
+    for (var i = 0; i < line.points.length; i++) {
+      var tmp = line.points[i];
+      window[line.id].geometry.attributes.position.array[i] = tmp.x;
+      window[line.id].geometry.attributes.position.array[i+1] = tmp.y;
+      window[line.id].geometry.attributes.position.array[i+2] = tmp.z;
+    }
+  }
+}
+
+function updateAllLines(lines) {
+  for (var i = 0; i < lines.length; i++) {
+    updateLine(lines[i]);
+  }
+}
 
 ///////////////////////////////////////////////// GUI CONTROLS
 
@@ -83,43 +98,7 @@ var color = new THREE.MeshLambertMaterial({
 
 ///////////////////////////////////////////////// ANIMATE LOOP
 
-// format:
-// [
-//  {id: ???, length: __, points: THREE.Vector3(), color: '#abcdef', width: 1},
-//  {id: ???, length: __, points: [array of coords], color: '#abcdef', width: 1},
-//  {id: ???, length: __, points: [array of coords], color: '#abcdef', width: 1},
-//  {id: ???, length: __, points: [array of coords], color: '#abcdef', width: 1},
-//  {id: ???, length: __, points: [array of coords], color: '#abcdef', width: 1},
-//    ...
-// ]
 
-function updateLine(line) { // updates lines passed from servers
-  
-    //  WE NEED A WAY TO ID IF A THREE.LINE has been created
-  
-  var obj = scene.getObjectByName(line.id)
-  if (!obj) { // If not created, create
-    
-    var line_mat = new THREE.LineBasicMaterial({
-      color: line.color,
-      linewidth: line.width
-    });
-    var line_geometry = new THREE.BufferGeometry();
-    var positions = new Float32Array.from(line.points);
-    line_geometry.setAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
-    obj = new THREE.Line(line_geometry, line_mat);
-    scene.add( obj );
-    
-  } 
-  else { // if exists, update geometry
-    for (var i = 0; i < line.length; i++) {
-      tmp = line.points[i];
-      path.geometry.attributes.position.array[i] = tmp.x;
-      path.geometry.attributes.position.array[i+1] = tmp.y;
-      path.geometry.attributes.position.array[i+2] = tmp.z;
-    }
-  }
-}
 
 function animate() {
   requestAnimationFrame(animate);

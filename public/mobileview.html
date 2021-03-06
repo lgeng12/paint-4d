@@ -11,14 +11,20 @@
     <title>TARTANHACKS2021</title>
     <link rel="stylesheet" href="/style.css">
 
-    
-    <script src="js/mobileview.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="js/mobileview.js" defer></script>
   </head>
   
-  <body>
+  <body onclick="change_picture()">
+    
+  <img src="assets/aruco-1023.svg" />
 
   <center>
     <button onclick="change_picture()">Click on this text!</button>
+    <button onclick="rotate(this)" id="button">Lock</button>
+    <button onclick="screen.orientation.unlock()">
+      Unlock
+    </button>
   </center>
 
 </body>
