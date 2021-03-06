@@ -17,7 +17,16 @@ var io = require('socket.io')(server);
 // to send a message:               socket.emit(title,data);
 // to deal with a received message: socket.on(title,function(data){ frob(data); })
 
-var coords = {}; // everyone's data
+var lines = {}; // everyone's data
+// format:
+// [
+//  {points: [[x1, y1, x1], [x2, y2, x2], ..., [xn, yn, zn]], color: '#abcdef'},
+//  {points: [array of coords], color: '#abcdef'},
+//  {points: [array of coords], color: '#abcdef'},
+//  {points: [array of coords], color: '#abcdef'},
+//  {points: [array of coords], color: '#abcdef'},
+//    ...
+// ]
 
 
 
@@ -34,12 +43,22 @@ function newConnection(socket) {
   socket.emit("connection-approve");
 
   // what to do when client sends us a message titled 'client-update'
-  socket.on('client-update', function (data) {
+  socket.on('client-update', function (packet) {
     // Data packet format:
-    // {type: 'coord'|'other', data: [the data]}
-    
+    // {type: 'lines'|'other', data: [the data]}
+    // data is in the exact same format as coords
+    // Assumption: lines in data are new and not already in coords
     
     // CASEY
+    // packet["type"] == 'lines'
+    if (packet["type"] == "lines") {
+      // packet.data == packet["data"]
+      
+    }
+    
+    
+    socket.emit('server-update', {coords: packet.data});
+    // {coords: [coords array]}
   })
 
   // every couple milliseconds we send to this client
@@ -60,10 +79,7 @@ function newConnection(socket) {
 
   //   // the client disconnected, let's wipe up after them
   socket.on('disconnect', function () {
-    clearInterval(timer); // cancel the scheduled updates we set up earlier
-    delete serverData[socket.id];
     console.log(socket.id + ' disconnected');
-    numPlayers--;
   });
 }
 
