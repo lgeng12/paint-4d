@@ -44,17 +44,10 @@ scene.add(axesHelper);
 //   'vaivbsoabvirbaivbi': {points: THREE.Vector3(), color: '#abcdef', width: 1},
 // }
 
-//  {id: {points: THREE.Vector3(), color: '#abcdef', width: 1}},
-//  {id: ???, points: THREE.Vector3(), color: '#abcdef', width: 1},
-//  {id: ???, points: THREE.Vector3(), color: '#abcdef', width: 1},
-//  {id: ???, points: THREE.Vector3(), color: '#abcdef', width: 1},
-//    ...
-// ]
-
 let clientData = {};
 
 function updateCoordinateList(id, coord) {
-  cur_line = clientData[id]
+  var cur_line = clientData[id]
   cur_line.points.push(coord);
   updateLine(cur_line)
 }

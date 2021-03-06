@@ -17,16 +17,12 @@ var io = require("socket.io")(server);
 // to send a message:               socket.emit(title,data);
 // to deal with a received message: socket.on(title,function(data){ frob(data); })
 
-var lines = []; // everyone's data
+var lines = {}; // everyone's data
 // format:
-// [
-//  {points: THREE.Vector3(), color: '#abcdef'},
-//  {points: [array of coords], color: '#abcdef'},
-//  {points: [array of coords], color: '#abcdef'},
-//  {points: [array of coords], color: '#abcdef'},
-//  {points: [array of coords], color: '#abcdef'},
-//    ...
-// ]
+// {
+//   'falaehflbnabu': {points: THREE.Vector3(), color: '#abcdef', width: 1},
+//   'vaivbsoabvirbaivbi': {points: THREE.Vector3(), color: '#abcdef', width: 1},
+// }
 
 console.log("listening...");
 
@@ -53,7 +49,7 @@ function newConnection(socket) {
     if (packet["type"] == "lines") {
       // packet.data == packet["data"]
       var new_lines = packet["data"];
-      lines.concat(new_lines);
+      lines = Object.assign({}, lines, new_lines);
     }
 
     socket.emit("server-update", { lines: new_lines });
