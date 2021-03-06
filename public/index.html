@@ -12,15 +12,24 @@
     <link rel="stylesheet" href="/style.css">
 
     
-    <script src="js/three.min.js"></script>
-    <script src="js/OrbitControl.js"></script>
-    <script src="js/dat.gui.min.js"></script>
-    <script type="text/javascript" src="libs/polyfill.js"></script> 
-    <script type="text/javascript" src="cv.js"></script> 
-    <script type="text/javascript" src="aruco.js"></script> 
+    <script src="js/libs/three.min.js"></script>
+    <script src="js/libs/OrbitControl.js"></script>
+    <script src="js/libs/dat.gui.min.js"></script>
+    <script src="js/libs/libs/polyfill.js"></script> 
+    <script src="js/libs/cv.js"></script> 
+    <script src="js/libs/aruco.js"></script> 
     
     <script src="js/main_graphics.js" defer></script>
     <script src="js/main_cv.js" defer></script>
   </head>
+  
+  <body>
+
+  <center>
+    <video id="video" autoplay="true" style="display:none;"></video>
+    <canvas id="canvas" style="width:640px; height:480px; position: absolute; right: 25px; top: 25px;"></canvas>
+  </center>
+
+</body>
              
 </html>
