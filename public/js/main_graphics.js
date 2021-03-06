@@ -36,7 +36,7 @@ var controls = new THREE.OrbitControls(camera, renderer.domElement);
 var axesHelper = new THREE.AxesHelper(250);
 scene.add(axesHelper);
 
-// idk what im doing
+// idk
 function addLine (geometry) {
   let line = new THREE.Line(geometry, line_mat);
   scene.add(line);
@@ -88,8 +88,10 @@ function updateLine() {
   var geometry = new THREE.Geometry();
   geometry.vertices.push( new THREE.Vector3( 0, 0, 0) );
   
-  let a = pose.map (x => x / 100)
-  geometry.vertices.push( new THREE.Vector3( a ));
+  if (typeof pose !== undefined) {
+    let a = pose.bestTranslation;
+    geometry.vertices.push( new THREE.Vector3( a ));
+  }
   addLine(geometry);
 }
 
