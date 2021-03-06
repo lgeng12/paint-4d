@@ -59,6 +59,10 @@ function updateCoordinateList(id, coord) {
     clientData[id] = {points: [], color: '#ff0000', width: 1}
   }
   
+  var mat = camera.matrixWorld;
+  var coordinate = THREE.Vector(coord[0], coord[1], coord[2])
+  
+  
   var cur_line = clientData[id]
   cur_line.points.push(coord[0]);
   cur_line.points.push(coord[1]);

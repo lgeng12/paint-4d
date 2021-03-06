@@ -158,7 +158,7 @@ function updateScenes(markers) {
     
     else {
       if (time_for_new_line) {
-        time_for_new_line === false;
+        time_for_new_line = false;
         line_id = generate_random_string(id_length);
       }
       updateCoordinateList(line_id, coord);
