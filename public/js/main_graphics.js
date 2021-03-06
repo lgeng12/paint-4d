@@ -46,8 +46,13 @@ scene.add(axesHelper);
 
 let clientData = {};
 
+socket.on("server-update", function(packet) {
+  clientData = packet;
+  console.log(clientData);
+});
+
 function updateCoordinateList(id, coord) {
-  var cur_line = clientData[id]
+  var cur_line = clientData.lines[id]
   cur_line.points.push(coord);
   updateLine(cur_line)
 }
@@ -81,6 +86,10 @@ function updateLine(line) { // updates lines passed from servers
       window[line.id].geometry.attributes.position.array[i+2] = tmp.z;
     }
   }
+  
+  // Notify all other clients of updates
+  // 'falaehflbnabu': {points: THREE.Vector3(), color: '#abcdef', width: 1},
+  socket.emit('client-update', window[line.id])
 }
 
 function updateAllLines(lines) {
@@ -116,7 +125,7 @@ function animate() {
   //   updateAssembly( guiControls.play );
   //   if (index != -1) path.geometry.attributes.position.needsUpdate = true;
 
-  // updateLines();
+  updateLines();
   
   renderer.render(scene, camera);
 }
