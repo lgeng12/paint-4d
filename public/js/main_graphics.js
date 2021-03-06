@@ -56,7 +56,7 @@ let clientData = {};
 function updateCoordinateList(id, coord) {
   
   if (clientData[id] == undefined) {
-    clientData[id] = {points: [], color: '#ff0000', width: 1}
+    clientData[id] = {points: [], color: '#ff0000', width: 10}
   }
   
   var cam_mat = camera.matrixWorld;
