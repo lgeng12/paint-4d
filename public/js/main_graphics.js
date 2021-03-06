@@ -14,9 +14,9 @@ var camera = new THREE.OrthographicCamera(
 );
 scene.add(camera);
 
-camera.position.x = 10;
-camera.position.y = 5;
-camera.position.z = 15;
+camera.position.x = 500;
+camera.position.y = 350;
+camera.position.z = 750;
 camera.lookAt(scene.position);
 
 var light = new THREE.AmbientLight(0xffffff, 0.75);
@@ -30,9 +30,10 @@ var renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
 // var renderer = new THREE.SVGRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
-renderer.setClearColor(0xd1e3ff, 1);
+renderer.setClearColor( 0x000000, 0 ); // the default
 
-var gridHelper = new THREE.GridHelper( 100, 10, 0xffffff, 0xffffff);
+
+var gridHelper = new THREE.GridHelper( 100, 10, 0x444444, 0x444444);
 scene.add( gridHelper );
 var controls = new THREE.OrbitControls(camera, renderer.domElement);
 var axesHelper = new THREE.AxesHelper(250);
@@ -117,8 +118,8 @@ function updateSphere(id, coords) {
   var obj = window[id];
   
   if (obj == undefined) {
-    var sphere_geometry = new THREE.SphereGeometry(1);
-    window[id] = new THREE.Mesh(sphere_geometry, new THREE.MeshBasicMaterial( {color: 0xff00ff} ));
+    var sphere_geometry = new THREE.SphereGeometry(3);
+    window[id] = new THREE.Mesh(sphere_geometry, new THREE.MeshBasicMaterial( {color: 0xffffff, transparent: true, opacity: 0.5} ));
     scene.add(window[id]);
   }
   else {
