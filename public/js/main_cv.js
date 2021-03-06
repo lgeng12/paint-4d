@@ -5,8 +5,8 @@ function onLoad() {
   canvas = document.getElementById("canvas");
   context = canvas.getContext("2d");
   
-  canvas.width = 1920;
-  canvas.height = 1080;
+  canvas.width = 1280;
+  canvas.height = 720;
 
 
   if (navigator.mediaDevices === undefined) {
@@ -31,7 +31,7 @@ function onLoad() {
   }
 
   navigator.mediaDevices
-    .getUserMedia({ video: { width: 1920, height: 1080 } })
+    .getUserMedia({ video: { width: 1280, height: 720 } })
     .then(function(stream) {
       if ("srcObject" in video) {
         video.srcObject = stream;
