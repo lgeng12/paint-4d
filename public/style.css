@@ -68,7 +68,6 @@ footer {
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  flex-grow: 1;
   text-align: center;
   font-size: 5em;
   margin: 10em;

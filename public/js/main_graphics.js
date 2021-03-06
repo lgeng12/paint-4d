@@ -60,7 +60,7 @@ function updateCoordinateList(id, coord) {
   }
   
   var cam_mat = camera.matrixWorld;
-  var coordinate = new THREE.Vector3(coord[0], coord[1], coord[2]);
+  var coordinate = new THREE.Vector3(-coord[0], coord[1], coord[2]);
   var new_coord = coordinate.applyMatrix4(cam_mat);
   
   var cur_line = clientData[id]
