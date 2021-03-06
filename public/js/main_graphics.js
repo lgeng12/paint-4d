@@ -19,9 +19,6 @@ camera.position.y = 5;
 camera.position.z = 15;
 camera.lookAt(scene.position);
 
-var sphere_geometry = new THREE.SphereGeometry(3);
-var sphere = new THREE.Mesh(sphere_geometry, new THREE.MeshBasicMaterial( {color: 0xff00ff} ));
-
 var light = new THREE.AmbientLight(0xffffff, 0.75);
 scene.add(light);
 
@@ -116,7 +113,19 @@ function updateAllLines(lines) {
 }
 
 function updateSphere(id, coords) {
-  var obj = scene.getObjectByName(id);
+  // var obj = scene.getObjectByName(id);
+  var object = window[id];
+  
+  //if (obj === undefined) {
+    var sphere_geometry = new THREE.SphereGeometry(1);
+    window[id] = new THREE.Mesh(sphere_geometry, new THREE.MeshBasicMaterial( {color: 0xff00ff} ));
+    scene.add(window[id]);
+  //}
+  //else {
+    console.log("foo");
+    window[id].position = coords;
+    // window[id].geometry.position.set(coords[0], coords[1], coords[2]);
+  }//
 }
 
 ///////////////////////////////////////////////// GUI CONTROLS

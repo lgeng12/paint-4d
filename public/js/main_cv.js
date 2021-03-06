@@ -148,6 +148,7 @@ function updateScenes(markers) {
 
     pose = posit.pose(corners);
     var coord = pose.bestTranslation;
+    coord[2] /= 10;
     var id = markers[0].id;
     
     let pen_on = id != 1023;
