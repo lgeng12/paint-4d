@@ -85,15 +85,26 @@ var color = new THREE.MeshLambertMaterial({
 
 // format:
 // [
-//  {points: THREE.Vector3(), color: '#abcdef'},
-//  {points: [array of coords], color: '#abcdef'},
-//  {points: [array of coords], color: '#abcdef'},
-//  {points: [array of coords], color: '#abcdef'},
-//  {points: [array of coords], color: '#abcdef'},
+//  {id: ???, points: THREE.Vector3(), color: '#abcdef'},
+//  {id: ???, points: [array of coords], color: '#abcdef'},
+//  {id: ???, points: [array of coords], color: '#abcdef'},
+//  {id: ???, points: [array of coords], color: '#abcdef'},
+//  {id: ???, points: [array of coords], color: '#abcdef'},
 //    ...
 // ]
 
-function drawLine(line) { // updates lines passed from servers
+function updateLine(line) { // updates lines passed from servers
+  
+    //  WE NEED A WAY TO ID IF A THREE.LINE has been created
+  
+  //     If not created, create
+  if (scene.getObjectByProperty())
+  
+  //   if exists, update geometry
+  
+    var line_geometry = new THREE.BufferGeometry();
+    var positions = new Float32Array( MAX_POINTS * 3 ); // 3 vertices per point
+    line_geometry.setAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
     var path = new THREE.Line(line_geometry, line_mat);
     scene.add( path );
 }
