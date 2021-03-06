@@ -64,8 +64,8 @@ footer {
 }
 
 #tracker {
-  width: 100%;
   background-image: url(assets/aruco-1023.svg);
   background-repeat: no-repeat;
   background-position: center;
+  flex-grow: 1;
 }

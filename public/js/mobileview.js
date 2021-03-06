@@ -44,6 +44,7 @@ window.addEventListener("load", () => {
 
 // icon changing
 function change_picture() {
-  let name = document.getElementById("icon").src;
-  document.getElementById("icon").src = (name.endsWith("assets/aruco-1023.svg") ? "assets/aruco-220.svg" : "assets/aruco-1023.svg");
+  let name = document.getElementById("tracker").style.backgroundImage;
+  console.log(name);
+  document.getElementById("tracker").style.backgroundImage = name == "url(\"assets/aruco-220.svg\")" ? "url(assets/aruco-1023.svg)" : "url(assets/aruco-220.svg)";
 }
