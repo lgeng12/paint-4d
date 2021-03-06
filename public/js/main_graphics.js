@@ -36,6 +36,10 @@ var controls = new THREE.OrbitControls(camera, renderer.domElement);
 var axesHelper = new THREE.AxesHelper(250);
 scene.add(axesHelper);
 
+// idk what im doing
+
+
+
 ///////////////////////////////////////////////// MATERIALS
 
 var clear = new THREE.MeshLambertMaterial({
