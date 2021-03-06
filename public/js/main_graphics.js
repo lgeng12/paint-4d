@@ -39,20 +39,22 @@ scene.add(axesHelper);
 ///////////////////////////////////////////////// DATA STRUCTURES
 
 // format:
-// [
+// {
+//   'falaehflbnabu': {points: THREE.Vector3(), color: '#abcdef', width: 1},
+//   'vaivbsoabvirbaivbi': {points: THREE.Vector3(), color: '#abcdef', width: 1},
+// }
+
+//  {id: {points: THREE.Vector3(), color: '#abcdef', width: 1}},
 //  {id: ???, points: THREE.Vector3(), color: '#abcdef', width: 1},
-//  {id: ???, points: [array of coords], color: '#abcdef', width: 1},
-//  {id: ???, points: [array of coords], color: '#abcdef', width: 1},
-//  {id: ???, points: [array of coords], color: '#abcdef', width: 1},
-//  {id: ???, points: [array of coords], color: '#abcdef', width: 1},
+//  {id: ???, points: THREE.Vector3(), color: '#abcdef', width: 1},
+//  {id: ???, points: THREE.Vector3(), color: '#abcdef', width: 1},
 //    ...
 // ]
 
-let cur_line;
-var cur_id = 'dhfaskgfjdsfla'
-cur_line = {id: cur_id, points: new Float32Array(3), color: '#abcdef', width: 1};
+let clientData = {};
 
-function updateCoordinateList(coord) {
+function updateCoordinateList(id, coord) {
+  cur_line = clientData[id]
   cur_line.points.push(coord);
   updateLine(cur_line)
 }

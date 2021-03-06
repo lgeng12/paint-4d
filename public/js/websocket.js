@@ -1,2 +1,9 @@
-// socket.io is a simple library for networking
-var io = require("socket.io")(server);
+
+const socket = io();
+
+let userName = "";
+
+const newUserConnected = (userName) => {
+  
+  
+}
