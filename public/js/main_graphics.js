@@ -37,8 +37,10 @@ var axesHelper = new THREE.AxesHelper(250);
 scene.add(axesHelper);
 
 // idk what im doing
-
-
+function addLine (geometry) {
+  let line = new THREE.Line(geometry, line_mat);
+  scene.add(line);
+}
 
 ///////////////////////////////////////////////// MATERIALS
 
@@ -81,6 +83,18 @@ var color = new THREE.MeshLambertMaterial({
 
 ///////////////////////////////////////////////// ANIMATE LOOP
 
+// idk
+function updateLine() {
+  var geometry = new THREE.Geometry();
+    geometry.vertices.push( new THREE.Vector3( 0, 0, 0) );
+    for(var i=0; i<100; i+=10) {
+        geometry.vertices.push(
+            new THREE.Vector3(i,i,i)
+        );
+  }
+  addLine(geometry);
+}
+
 function animate() {
   requestAnimationFrame(animate);
 
@@ -93,6 +107,8 @@ function animate() {
   //   updateAssembly( guiControls.play );
   //   if (index != -1) path.geometry.attributes.position.needsUpdate = true;
 
+  updateLine();
+  
   renderer.render(scene, camera);
 }
 animate();
