@@ -37,7 +37,7 @@ input {
 form button {
   background-color: #bbbbf2;
   border: 2px solid currentColor;
-  border-radius: .25em;
+  border-radius: 0.25em;
   cursor: pointer;
   font-size: inherit;
   line-height: 1.4em;
@@ -67,5 +67,6 @@ footer {
   background-image: url(assets/aruco-1023.svg);
   background-repeat: no-repeat;
   background-position: center;
+  background-size: contain;
   flex-grow: 1;
 }

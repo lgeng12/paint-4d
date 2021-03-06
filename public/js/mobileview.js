@@ -46,5 +46,5 @@ window.addEventListener("load", () => {
 function change_picture() {
   let name = document.getElementById("tracker").style.backgroundImage;
   console.log(name);
-  document.getElementById("tracker").style.backgroundImage = name == "url(\"assets/aruco-220.svg\")" ? "url(assets/aruco-1023.svg)" : "url(assets/aruco-220.svg)";
+  document.getElementById("tracker").style.backgroundImage = name.endsWith("assets/aruco-220.svg\")") ? "url(\"assets/aruco-1023.svg\")" : "url(\"assets/aruco-220.svg\")";
 }
