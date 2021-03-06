@@ -41,23 +41,25 @@ function newConnection(socket) {
 
   // ok you're in
   socket.emit("connection-approve");
+  socket.emit('server-update', {lines: lines}); // Send current list of lines
 
   // what to do when client sends us a message titled 'client-update'
   socket.on('client-update', function (packet) {
     // Data packet format:
     // {type: 'lines'|'other', data: [the data]}
-    // data is in the exact same format as coords
-    // Assumption: lines in data are new and not already in coords
+    // data is in the exact same format as lines
+    // Assumption: lines in data are new and not already in lines
     
     // CASEY
     // packet["type"] == 'lines'
     if (packet["type"] == "lines") {
       // packet.data == packet["data"]
+      lines = packet["data"];
       
     }
     
     
-    socket.emit('server-update', {coords: packet.data});
+    socket.emit('server-update', {lines: packet.data});
     // {coords: [coords array]}
   })
 
@@ -65,16 +67,6 @@ function newConnection(socket) {
   // the data of everybody else
 
   // setInterval(f,t) = run function f every t milliseconds
-
-  let timer = setInterval(function () {
-    var others = {};
-    for (var k in serverData) {
-      if (k != socket.id) {
-        others[k] = serverData[k];
-      }
-    }
-    socket.emit('server-update', serverData);
-  }, 15);
 
 
   //   // the client disconnected, let's wipe up after them

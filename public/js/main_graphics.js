@@ -85,6 +85,8 @@ var color = new THREE.MeshLambertMaterial({
 
 // idk
 var geometry = new THREE.Geometry();
+geometry.vertices.push( new THREE.Vector3(0, 0, 0) )
+
 function updateLines() {  
   if (pose !== undefined) {
     let a = pose.bestTranslation;
@@ -92,8 +94,9 @@ function updateLines() {
     a[0] = a[0]/10;
     a[1] = a[1]/10;
     a[2] = (a[2] - 100)/10;
-    console.log(geometry);
-    if (geometry.vertices[0].reduce((a, b) => a + b) - a.reduce((a, b) => a + b) > 1) {
+    let diff = Math.abs(geometry.vertices[geometry.vertices.length-1].toArray().reduce((a, b) => a + b) - a.reduce((a, b) => a + b));
+    console.log(diff);
+    if (geometry.vertices.length === 0 || diff > 2) {
       geometry.vertices.push( new THREE.Vector3( a[0], a[1], a[2] ));
     }
   }
