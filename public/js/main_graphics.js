@@ -93,14 +93,18 @@ function updateLines() {
     a = a.map(x => Math.abs(x));
     a[0] = a[0]/10;
     a[1] = a[1]/10;
-    a[2] = (a[2] - 100)/10;
+    a[2] = (a[2] - 100)/80;
     let diff = Math.abs(geometry.vertices[geometry.vertices.length-1].toArray().reduce((a, b) => a + b) - a.reduce((a, b) => a + b));
     console.log(diff);
-    if (geometry.vertices.length === 0 || diff > 2) {
+    console.log(a);
+    console.log(geometry.vertices.length)
+
+    if (geometry.vertices.length === 0 || diff > 0.5) {
       geometry.vertices.push( new THREE.Vector3( a[0], a[1], a[2] ));
     }
   }
-  addLine(geometry);
+  // addLine(geometry);
+  scene.add(new THREE.Line(geometry, line_mat));
 }
 
 function animate() {

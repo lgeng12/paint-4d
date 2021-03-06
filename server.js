@@ -17,7 +17,7 @@ var io = require('socket.io')(server);
 // to send a message:               socket.emit(title,data);
 // to deal with a received message: socket.on(title,function(data){ frob(data); })
 
-var lines = {}; // everyone's data
+var lines = []; // everyone's data
 // format:
 // [
 //  {points: [[x1, y1, x1], [x2, y2, x2], ..., [xn, yn, zn]], color: '#abcdef'},
@@ -37,7 +37,7 @@ io.sockets.on('connection', newConnection);
 function newConnection(socket) {
   // "socket" now refers to this particular new player's connection
 
-  console.log('new connection: ' + socket.id);
+  console.log('new conection: ' + socket.id);
 
   // ok you're in
   socket.emit("connection-approve");
@@ -54,12 +54,12 @@ function newConnection(socket) {
     // packet["type"] == 'lines'
     if (packet["type"] == "lines") {
       // packet.data == packet["data"]
-      lines = packet["data"];
-      
+      var new_lines = packet["data"];
+      lines.concat(new_lines);
     }
     
     
-    socket.emit('server-update', {lines: packet.data});
+    socket.emit('server-update', {lines: new_lines});
     // {coords: [coords array]}
   })
 
