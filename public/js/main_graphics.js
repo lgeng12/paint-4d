@@ -48,37 +48,41 @@ scene.add(axesHelper);
 
 let clientData = {};
 
-socket.on("server-update", function(packet) {
-  clientData = packet;
-  console.log(clientData);
-});
+// socket.on("server-update", function(packet) {
+//   clientData = packet;
+//   console.log(clientData);
+// });
 
 function updateCoordinateList(id, coord) {
   
   if (clientData[id] == undefined) {
-    clientData[id] = {points: [], color: '#ff0000'}
+    clientData[id] = {points: [], color: '#ff0000', width: 1}
   }
   
   var cur_line = clientData[id]
-  cur_line.points.push(coord);
-  updateLine(cur_line)
+  // console.log(id);
+  cur_line.points.push(coord[0]);
+  cur_line.points.push(coord[1]);
+  cur_line.points.push(coord[2]);
+  updateLine(id, cur_line)
 }
 
-function updateLine(line) { // updates lines passed from servers
+function updateLine(id, line) { // updates lines passed from servers
   
-  var obj = scene.getObjectByName(line.id)
+  var obj = scene.getObjectByName(id)
   
-  if (!obj) { // If not created, create
+  if (obj == undefined) { // If not created, create
     
     var line_mat = new THREE.LineBasicMaterial({
       color: line.color,
       linewidth: line.width
     });
     var line_geometry = new THREE.BufferGeometry();
-    var positions = new Float32Array.from(line.points);
+    var positions = Float32Array.from(line.points);
     line_geometry.setAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
-    window[line.id] = new THREE.Line(line_geometry, line_mat);
-    scene.add( window[line.id] );
+    line_geometry.setDrawRange(0, positions.length);
+    window[id] = new THREE.Line(line_geometry, line_mat);
+    scene.add( window[id] );
     
   } 
   else { // if exists, update geometry

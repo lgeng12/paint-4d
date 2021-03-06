@@ -1,3 +1,4 @@
+require('dotenv').config();
 // server.js
 // this is the "hub" where player's data got sent to each other
 
