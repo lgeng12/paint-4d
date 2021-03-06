@@ -7,8 +7,6 @@ function onLoad() {
   
   canvas.width = 1920;
   canvas.height = 1080;
-  context.translate(canvas.width, 0);
-  context.scale(-1, 1);
 
 
   if (navigator.mediaDevices === undefined) {

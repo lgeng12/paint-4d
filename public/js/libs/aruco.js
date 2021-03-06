@@ -53,7 +53,7 @@ AR.Detector.prototype.detect = function(image){
   this.candidates = this.clockwiseCorners(this.candidates);
   this.candidates = this.notTooNear(this.candidates, 10);
 
-  return this.findMarkers(this.grey, this.candidates, 49);
+  return this.findMarkers(this.grey, this.candidates, 900);
 };
 
 AR.Detector.prototype.findCandidates = function(contours, minSize, epsilon, minLength){
