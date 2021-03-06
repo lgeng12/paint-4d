@@ -117,6 +117,7 @@ function drawId(markers) {
   }
 }
 
+var 
 function updateScenes(markers) {
   // var corners, corner, pose, i;
   var corners, corner, i;
