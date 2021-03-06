@@ -19,6 +19,9 @@ camera.position.y = 5;
 camera.position.z = 15;
 camera.lookAt(scene.position);
 
+var sphere_geometry = new THREE.SphereGeometry(3);
+var sphere = new THREE.Mesh(sphere_geometry, new THREE.MeshBasicMaterial( {color: 0xff00ff} ));
+
 var light = new THREE.AmbientLight(0xffffff, 0.75);
 scene.add(light);
 
@@ -26,7 +29,7 @@ var directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
 directionalLight.position = (1, 1, 1);
 scene.add(directionalLight);
 
-var renderer = new THREE.WebGLRenderer();
+var renderer = new THREE.WebGLRenderer({antialias: true});
 // var renderer = new THREE.SVGRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
@@ -72,7 +75,7 @@ function updateCoordinateList(id, coord) {
 
 function updateLine(id, line) { // updates lines passed from servers
   
-  var obj = scene.getObjectByName(id)
+  var obj = scene.getObjectByName(id);
   
   if (obj == undefined) { // If not created, create
     
@@ -110,6 +113,10 @@ function updateAllLines(lines) {
   for (var i = 0; i < lines.length; i++) {
     updateLine(lines[i]);
   }
+}
+
+function updateSphere(id, coords) {
+  var obj = scene.getObjectByName(id);
 }
 
 ///////////////////////////////////////////////// GUI CONTROLS

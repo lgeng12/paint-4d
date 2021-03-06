@@ -164,6 +164,7 @@ function updateScenes(markers) {
       updateCoordinateList(line_id, coord);
     }
     // console.log("Coordinates of phone: " + coord);
+    updateSphere("cursor", coord);
   }
 }
 
