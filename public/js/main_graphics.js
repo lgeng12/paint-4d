@@ -114,7 +114,7 @@ function updateLine(id, line) { // updates lines passed from servers
   var packet = {};
   // console.log(window[id].geometry.attributes.position.array);
   packet[id] = {points: window[id].geometry.attributes.position.array, color: line.color};
-  console.log(packet);
+  // console.log(packet);
   socket.emit('client-update', packet);
 }
 
