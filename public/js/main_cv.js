@@ -132,6 +132,7 @@ function generate_random_string(string_length){
 var time_for_new_line = true;
 var line_id = "firstline";
 const id_length = 20;
+var current_coord = [0, 0, 0];
 function updateScenes(markers) {
   // var corners, corner, pose, i;
   var corners, corner, i;
@@ -149,7 +150,7 @@ function updateScenes(markers) {
     pose = posit.pose(corners);
     var coord = pose.bestTranslation;
     coord[2] /= 10;
-    coord[2] -= 200;
+    coord[2] -= 400;
     var id = markers[0].id;
     
     let pen_on = id != 1023;

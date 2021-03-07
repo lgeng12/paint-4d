@@ -5,3 +5,9 @@
   transform: scale(-1, 1);
   filter: FlipH;
 }
+
+#picker {
+  position: absolute;
+  left: 50px;
+  bottom: 25px;
+}

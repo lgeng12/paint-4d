@@ -1,22 +1,29 @@
+var colorPicker = new iro.ColorPicker("#picker", {
+  // Set the size of the color picker
+  width: 250,
+  // Set the initial color to pure red
+  color: "#f00"
+});
+
 ///////////////////////////////////////////////// SETUP
 
 var scene = new THREE.Scene();
 var viewSize = 50;
 var aspectRatio = window.innerWidth / window.innerHeight;
-//var camera = new THREE.PerspectiveCamera( 75, aspectRatio, 0.1, 1000 );
-var camera = new THREE.OrthographicCamera(
-  (-aspectRatio * viewSize) / 2,
-  (aspectRatio * viewSize) / 2,
-  viewSize / 2,
-  -viewSize / 2,
-  -1000,
-  1000
-);
+var camera = new THREE.PerspectiveCamera( 45, aspectRatio, 0.1, 1000 );
+// var camera = new THREE.OrthographicCamera(
+//   (-aspectRatio * viewSize) / 2,
+//   (aspectRatio * viewSize) / 2,
+//   viewSize / 2,
+//   -viewSize / 2,
+//   -1000,
+//   1000
+// );
 scene.add(camera);
 
-camera.position.x = 500;
-camera.position.y = 350;
-camera.position.z = 750;
+camera.position.x = 250;
+camera.position.y = 175;
+camera.position.z = 325;
 camera.lookAt(scene.position);
 
 var light = new THREE.AmbientLight(0xffffff, 0.75);
@@ -118,7 +125,7 @@ function updateSphere(id, coords) {
   var obj = window[id];
   
   if (obj == undefined) {
-    var sphere_geometry = new THREE.SphereGeometry(3);
+    var sphere_geometry = new THREE.SphereGeometry(1, 32, 32);
     window[id] = new THREE.Mesh(sphere_geometry, new THREE.MeshBasicMaterial( {color: 0xffffff, transparent: true, opacity: 0.5} ));
     scene.add(window[id]);
   }
