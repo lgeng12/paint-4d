@@ -93,6 +93,10 @@ socket.on("server-cursor", function(cursorPacket) {
   }
 });
 
+socket.on("server-cursor-clear", function(other_client_id) {
+  deleteCursor(other_client_id);
+});
+
 function updateCoordinateList(line_id, coord) {
   
   if (clientData[client_id] == undefined) {
@@ -185,14 +189,16 @@ function undo() {
   }
 }
 
-function updateCursor(id, coords) {
+function updateCursor(id, coords, cursor_color = 0x9900cc) {
   // var obj = scene.getObjectByName(id);
   var obj = window[id];
   
   if (obj == undefined) {
     var sphere_geometry = new THREE.SphereGeometry(1, 32, 32);
-    window[id] = new THREE.Mesh(sphere_geometry, new THREE.MeshBasicMaterial( {color: 0xffffff, transparent: true, opacity: 0.5} ));
-    scene.add(window[id]);
+    window[id] = new THREE.Mesh(sphere_geometry, new THREE.MeshBasicMaterial( {color: cursor_color, transparent: true, opacity: 0.5} ));
+    obj = window[id];
+    obj.name = id;
+    scene.add(obj);
   }
   // var cam_mat = camera.matrixWorld;
   // var coordinate = new THREE.Vector3(-coords[0], coords[1], coords[2]);
@@ -210,11 +216,23 @@ function updateSelfCursor(coords) {
   var coordinate = new THREE.Vector3(-coords[0], coords[1], coords[2]);
   var new_coord = coordinate.applyMatrix4(cam_mat);
   
-  updateCursor(cursor_id, [new_coord.x, new_coord.y, new_coord.z]);
+  updateCursor(cursor_id, [new_coord.x, new_coord.y, new_coord.z], 0xffffff);
   
   var cursorPacket = {};
   cursorPacket[client_id] = clientCursorData[cursor_id];
   socket.emit("client-cursor", cursorPacket);
+}
+
+function deleteCursor(other_client_id) {
+  var id = other_client_id + "cursor";
+  var obj = scene.getObjectByName(id);
+  if (obj != undefined) {
+    scene.remove(obj);
+  }
+  if (window[id] != undefined) {
+    delete window[id];
+  }
+  delete clientCursorData[other_client_id];
 }
 
 ///////////////////////////////////////////////// ANIMATE LOOP

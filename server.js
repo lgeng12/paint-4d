@@ -7,9 +7,6 @@ const express = require("express");
 const app = express();
 var server = app.listen(process.env.PORT || 3000);
 
-// make all the files in 'public' available
-// https://expressjs.com/en/starter/static-files.html
-app.use(express.static("public"));
 
 // socket.io is a simple library for networking
 var io = require("socket.io")(server);
@@ -81,12 +78,13 @@ function newConnection(socket) {
   socket.on("disconnect", function() {
     console.log(socket.id + " disconnected");
     socket.broadcast.emit("server-clear", socket.id);
+    socket.broadcast.emit("server-cursor-clear", socket.id);
     delete serverData[socket.id];
+    delete serverCursorData[socket.id];
   });
 }
 
 function sendCursorData() {
-
   io.emit('server-cursor', serverCursorData);
 }
 
@@ -94,7 +92,7 @@ function sendCursorData() {
 //////////////// FIREBASE STUFF ////////////////
 
 const firebase = require("firebase");
-const docRef = 'p4dfiles/';
+const root = 'p4dfiles/';
 // Required for side-effects
 require("firebase/firestore");
 
@@ -111,23 +109,28 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 // LOADING FILES
-app.get("db/load", function (req, res) {
+app.get("/db/load", function (req, res) {
   var filename = req.query.filename;
+  var docRef = firebase.doc(root + filename);
   
   docRef.get().then(function (doc){
     if (doc && doc.exists) {
-      const myData = doc.data();
+      var myData = JSON.parse(doc.data());
+    } else {
+      res.sendStatus(400);
+      return;
     }
   });
-  
-  res.send("the lines data");
+  // Convert string back to json
+  res.send(myData);
 });
 
 // SAVING FILES
-app.get("db/save", function (req, res) {
-  var data = {};
+app.get("/db/save", function (req, res) {
   var filename = req.query.filename;
-  data[filename] = serverData.stringify();
+  var docRef = firebase.doc(root + filename);
+  var data = JSON.stringify(serverData);
+  
   docRef.set(data)
     .then(function() {console.log(filename, ' saved!')})
     .catch(function (error) {console.log('Save Error: ', error)});
@@ -136,3 +139,8 @@ app.get("db/save", function (req, res) {
 });
 
 var db = firebase.firestore();
+
+
+// make all the files in 'public' available
+// https://expressjs.com/en/starter/static-files.html
+app.use(express.static("public"));
