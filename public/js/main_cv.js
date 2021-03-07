@@ -176,6 +176,7 @@ function updateScenes(markers) {
       if (time_for_new_line) {
         time_for_new_line = false;
         line_id = generate_random_string(id_length);
+        lineIDStack_push(line_id);
       }
       updateCoordinateList(line_id, coord);
     }

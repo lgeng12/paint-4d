@@ -3,50 +3,77 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Draw in 3D using your phone!">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Draw in 3D using your phone!" />
 
     <title>Paint4D</title>
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.6.0/dist/darkly/bootstrap.min.css">
-    <link rel="stylesheet" href="/style.css">
-    
-    
-    <script src="https://cdn.socket.io/3.1.1/socket.io.min.js" integrity="sha384-gDaozqUvc4HTgo8iZjwth73C6dDDeOJsAgpxBcMpZYztUfjHXpzrpdrHRdVp8ySO" crossorigin="anonymous"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootswatch@4.6.0/dist/darkly/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="/style.css" />
+
+    <script
+      src="https://cdn.socket.io/3.1.1/socket.io.min.js"
+      integrity="sha384-gDaozqUvc4HTgo8iZjwth73C6dDDeOJsAgpxBcMpZYztUfjHXpzrpdrHRdVp8ySO"
+      crossorigin="anonymous"
+    ></script>
     <script src="js/libs/three.min.js"></script>
     <script src="js/libs/OrbitControl.js"></script>
-    <script src="js/libs/polyfill.js"></script> 
-    <script src="js/svd.js"></script> 
-    <script src="js/posit1.js"></script> 
-    <script src="js/cv.js"></script> 
-    <script src="js/aruco.js"></script> 
+    <script src="js/libs/polyfill.js"></script>
+    <script src="js/svd.js"></script>
+    <script src="js/posit1.js"></script>
+    <script src="js/cv.js"></script>
+    <script src="js/aruco.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
-<!--     <script src="https://meet.jit.si/external_api.js"></script> -->
+    <!--     <script src="https://meet.jit.si/external_api.js"></script> -->
 
-    
-    <script src="js/websocket.js" defer></script> 
+    <script src="js/websocket.js" defer></script>
     <script src="js/main_cv.js" defer></script>
-    <script src="js/main_graphics.js" defer></script>    
-<!--     <script src="js/video_conf.js" defer></script> -->
+    <script src="js/main_graphics.js" defer></script>
+    <!--     <script src="js/video_conf.js" defer></script> -->
   </head>
-  
-<body>
 
-  <div id="picker"></div>
-  <video id="video" autoplay="true" style="display:none;"></video>
-  <div style="position: absolute; right: 0; top: 0; display: flex; flex-flow: column;">
-    <canvas id="canvas"></canvas>
-<!--       <div id="video_container" style="height: auto; width: 100%; flex-grow: 1"/> -->
-  </div>
-  <div style="position: absolute; left: 20px; bottom: 20px; display: flex; flex-flow: column;">
-    <img id="qr" src="assets/qrcode.png" width="100px" style="opacity: .1; border-radius: 5px;"/>
-  </div>
-    <button onclick="deleteSelfLines()" type="button" class="btn btn-danger btn-lg" style="position: absolute; bottom: 40px; left: 0; right: 0; margin-left: auto; margin-right: auto;">
-      Rid the shit!?
-    </button>
-
-</body>
-             
+  <body>
+    <div id="picker"></div>
+    <video id="video" autoplay="true" style="display:none;"></video>
+    <div
+      style="position: absolute; right: 0; top: 0; display: flex; flex-flow: column;"
+    >
+      <canvas id="canvas"></canvas>
+      <!--       <div id="video_container" style="height: auto; width: 100%; flex-grow: 1"/> -->
+    </div>
+    <div
+      style="position: absolute; left: 20px; bottom: 20px; display: flex; flex-flow: column;"
+    >
+      <img
+        id="qr"
+        src="assets/qrcode.png"
+        width="100px"
+      />
+    </div>
+    <div
+      style="position: absolute; bottom: 40px; left: 0; right: 0; margin-left: auto; margin-right: auto; text-align: center;"
+    >
+      <button
+        onclick="deleteSelfLines()"
+        type="button"
+        class="btn btn-danger btn-lg d-inline-block mr-2"
+        style="width: 150px"
+      >
+        Clear my lines
+      </button>
+      <button
+        onclick="undo()"
+        type="button"
+        class="btn btn-danger btn-lg d-inline-block"
+        style="width: 150px"
+      >
+        Undo
+      </button>
+    </div>
+  </body>
 </html>

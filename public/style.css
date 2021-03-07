@@ -24,6 +24,14 @@ html {
   opacity: 60%;
 }
 
+#qr {
+  opacity: 0.2;
+  border-radius: 5px;
+}
+
 #qr.hover {
   opacity: 1;
+  -webkit-transition: opacity 1s;
+  transition: opacity 1s;
+  border-radius: 5px;
 }

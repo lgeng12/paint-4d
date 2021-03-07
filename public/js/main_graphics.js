@@ -51,6 +51,11 @@ scene.add(axesHelper);
 //   'vaivbsoabvirbaivbi': {points: THREE.Vector3(), color: '#abcdef', width: 1},
 // }
 var clientData = {};
+var lineIDStack = [];
+
+function lineIDStack_push(line_id) {
+  lineIDStack.push(line_id);
+}
 
 socket.on("server-update", function(packet) {
   for (let other_client_id in packet) {
@@ -70,7 +75,6 @@ socket.on("server-update", function(packet) {
 
 socket.on("server-clear", function(other_client_id) {
   let lines = clientData[other_client_id];
-  console.log("deleting for id: " + other_client_id);
   for (var key_id in lines) {
     deleteLine(key_id, lines[key_id], other_client_id);
   }
@@ -144,7 +148,6 @@ function updateAllLines(lines) {
 function deleteLine(id, line, other_client_id) {
   var obj = scene.getObjectByName(id);
   if (obj != undefined) {
-    console.log('i am called');
     scene.remove(obj);
   }
   if (window[id] != undefined) {
@@ -158,8 +161,12 @@ function deleteSelfLines() {
   for (var key_id in lines) {
     deleteLine(key_id, lines[key_id], client_id);
   }
-  console.log("deleting for id: " + client_id);
   socket.emit('client-clear', client_id);
+}
+
+function undo() {
+  line_id = lineIDStack.pop();
+  deleteLine()
 }
 
 function updateSphere(id, coords) {
