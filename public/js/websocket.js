@@ -1,5 +1,9 @@
 
-const socket = io('https://paint-4d.glitch.me/');
+/* global describe io*/
+var socket = io();
+socket.on('connection-approve', function(data){
+  console.log("Approved!")
+})
 
 
 // socket.on("server-update", lines => {

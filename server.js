@@ -53,8 +53,11 @@ function newConnection(socket) {
       lines = Object.assign({}, lines, new_lines);
     }
 
-    socket.emit("server-update", { lines: new_lines });
-    // {coords: [coords array]}
+    let rockets = io.sockets.connected;
+    for(var k in rockets){
+      var rocket = rockets[k];
+      rocket.emit('server-update', { lines: new_lines });
+    }
   });
 
   // every couple milliseconds we send to this client
@@ -62,7 +65,7 @@ function newConnection(socket) {
 
   // setInterval(f,t) = run function f every t milliseconds
 
-  //   // the client disconnected, let's wipe up after them
+  // the client disconnected, let's wipe up after them
   socket.on("disconnect", function() {
     console.log(socket.id + " disconnected");
   });
