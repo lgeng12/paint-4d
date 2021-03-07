@@ -23,3 +23,7 @@ html {
   border-radius: 10px;
   opacity: 60%;
 }
+
+#qr.hover {
+  opacity: 1;
+}

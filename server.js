@@ -55,8 +55,8 @@ function newConnection(socket) {
     socket.broadcast.emit("server-update", new_lines);
   });
   
-  socket.on("client-clear", function(cleared_serverData) {
-    
+  socket.on("client-clear", function(client_id) {
+    socket.broadcast.emit("server-clear", client_id);
   });
 
   // every couple milliseconds we send to this client
