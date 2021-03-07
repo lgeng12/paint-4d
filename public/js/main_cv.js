@@ -132,7 +132,7 @@ function generate_random_string(string_length){
 var time_for_new_line = true;
 var line_id = "firstline";
 const id_length = 20;
-var current_coord = [0, 0, 0];
+var current_coord =[0, 0, 0];
 function updateScenes(markers) {
   // var corners, corner, pose, i;
   var corners, corner, i;
@@ -151,8 +151,13 @@ function updateScenes(markers) {
     var coord = pose.bestTranslation;
     coord[2] /= 10;
     coord[2] -= 400;
-    var id = markers[0].id;
     
+    var diff = [current_coord[0] - coord[0], current_coord[1] - coord[1], current_coord[2] - coord[2]];
+    diff = diff.map(x => x / 5);
+    current_coord = [coord[0]+diff[0], coord[1]+diff[1], coord[2]+diff[2]];
+    coord = current_coord;
+    
+    var id = markers[0].id;
     let pen_on = id != 1023;
     
     if (!pen_on) {

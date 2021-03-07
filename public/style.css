@@ -8,6 +8,6 @@
 
 #picker {
   position: absolute;
-  left: 50px;
-  bottom: 25px;
+  left: 25px;
+  top: 25px;
 }
