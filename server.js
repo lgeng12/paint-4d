@@ -5,7 +5,7 @@ require("dotenv").config();
 // express (https://expressjs.com/) is a simple node.js framework for writing servers
 const express = require("express");
 const app = express();
-var server = app.listen(process.env.PORT || 8080);
+var server = app.listen(process.env.PORT || 300);
 
 // make all the files in 'public' available
 // https://expressjs.com/en/starter/static-files.html
@@ -47,15 +47,6 @@ function newConnection(socket) {
     // CASEY
     // packet.data == packet["data"]
     lines = Object.assign({}, lines, new_lines);
-    // console.log(lines);
-
-    // let rockets = io.sockets.connected;
-    // for(var ] in rockets){
-    //   if (k.id != socket.id) {
-    //     var rocket = rockets[k];
-    //     rocket.emit('server-update', new_lines);
-    //   }
-    // }
     socket.broadcast.emit("server-update", new_lines);
   });
 

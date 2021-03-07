@@ -54,11 +54,12 @@ scene.add(axesHelper);
 //   'vaivbsoabvirbaivbi': {points: THREE.Vector3(), color: '#abcdef', width: 1},
 // }
 
-let clientData = {};
+var clientData = {};
 
 socket.on("server-update", function(packet) {
   clientData = Object.assign({}, clientData, packet);
   updateAllLines(clientData);
+  console.log(clientData);
 });
 
 function updateCoordinateList(id, coord) {
@@ -81,6 +82,7 @@ function updateCoordinateList(id, coord) {
 function updateLine(id, line) { // updates lines passed from servers
   
   var obj = scene.getObjectByName(id);
+  var positions = Float32Array.from(line.points);
   
   if (obj == undefined) { // If not created, create
     
@@ -89,7 +91,6 @@ function updateLine(id, line) { // updates lines passed from servers
       linewidth: 1
     });
     var line_geometry = new THREE.BufferGeometry();
-    var positions = Float32Array.from(line.points);
     line_geometry.setAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
     line_geometry.setDrawRange(0, positions.length);
     window[id] = new THREE.Line(line_geometry, line_mat);
@@ -100,19 +101,13 @@ function updateLine(id, line) { // updates lines passed from servers
     
     window[id].material.color = new THREE.Color( 0xffffff );         
     window[id].material.needsUpdate = true;
-    
-    for (var i = 0; i < line.points.length; i++) {
-      var tmp = line.points[i];
-      window[id].geometry.attributes.position.array[i] = tmp.x;
-      window[id].geometry.attributes.position.array[i+1] = tmp.y;
-      window[id].geometry.attributes.position.array[i+2] = tmp.z;
-    }
+    window[id].geometry.setAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
+    window[id].geometry.setDrawRange(0, positions.length);
   }
   
   // Notify all other clients of updates
   // 'falaehflbnabu': {points: THREE.Vector3(), color: '#abcdef'},
   var packet = {};
-  // console.log(window[id].geometry.attributes.position.array);
   packet[id] = {points: window[id].geometry.attributes.position.array, color: line.color};
   // console.log(packet);
   socket.emit('client-update', packet);
