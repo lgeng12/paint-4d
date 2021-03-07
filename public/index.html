@@ -47,6 +47,26 @@
       <!--       <div id="video_container" style="height: auto; width: 100%; flex-grow: 1"/> -->
     </div>
     <div
+      style="position: absolute; bottom: 40px; left: 0; right: 0; margin-left: auto; margin-right: auto; text-align: center;"
+    >
+      <button
+        onclick="deleteSelfLines()"
+        type="button"
+        class="btn btn-danger btn-lg d-inline-block mr-2"
+        style="width: 250px"
+      >
+        Begone ma lines broh!
+      </button>
+      <button
+        onclick="undo()"
+        type="button"
+        class="btn btn-danger btn-lg d-inline-block"
+        style="width: 250px"
+      >
+        Undu
+      </button>
+    </div>
+    <div
       style="position: absolute; left: 20px; bottom: 20px; display: flex; flex-flow: column;"
     >
       <img
@@ -54,26 +74,6 @@
         src="assets/qrcode.png"
         width="100px"
       />
-    </div>
-    <div
-      style="position: absolute; bottom: 40px; left: 0; right: 0; margin-left: auto; margin-right: auto; text-align: center;"
-    >
-      <button
-        onclick="deleteSelfLines()"
-        type="button"
-        class="btn btn-danger btn-lg d-inline-block mr-2"
-        style="width: 150px"
-      >
-        Clear my lines
-      </button>
-      <button
-        onclick="undo()"
-        type="button"
-        class="btn btn-danger btn-lg d-inline-block"
-        style="width: 150px"
-      >
-        Undo
-      </button>
     </div>
   </body>
 </html>

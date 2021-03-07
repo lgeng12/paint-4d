@@ -169,9 +169,11 @@ function deleteSelfLines() {
 }
 
 function undo() {
-  var line_id = lineIDStack.pop();
-  deleteLine(line_id, clientData[client_id][line_id], client_id);
-  socket.emit("client-undo", line_id);
+  if (lineIDStack.length > 0) {
+    var line_id = lineIDStack.pop();
+    deleteLine(line_id, clientData[client_id][line_id], client_id);
+    socket.emit("client-undo", line_id);
+  }
 }
 
 function updateSphere(id, coords) {

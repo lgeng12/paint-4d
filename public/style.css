@@ -27,9 +27,11 @@ html {
 #qr {
   opacity: 0.2;
   border-radius: 5px;
+  -webkit-transition: opacity 1s;
+  transition: opacity 1s;
 }
 
-#qr.hover {
+#qr:hover {
   opacity: 1;
   -webkit-transition: opacity 1s;
   transition: opacity 1s;
