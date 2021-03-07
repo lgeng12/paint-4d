@@ -30,9 +30,6 @@ html {
   overflow: hidden;
 }
 
-body {
-  font-family: 'Orbitron', courier, sans-serif !important;
-}
 
 #canvas {
   width: 320px;
@@ -56,13 +53,13 @@ body {
   border-radius: 5px;
 }
 
-#undo_btn, #clear_btn {
+.cyberpunk {
   background-color: #383e65;
   border: 1px solid #ff124f;
   border-radius: 5px;
 }
 
-#undo_btn:hover, #undo_btn:active, #clear_btn:hover, #clear_btn:active {
-  background-color: #383e65;
+.cyberpunk:hover, .cyberpunk:active {
+  background-color: #383e65 !important;
   border: 1px solid #defe47;
 }
