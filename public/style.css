@@ -41,7 +41,6 @@ html {
 
 #qr {
   opacity: 0.05;
-  border-radius: 5px;
   -webkit-transition: opacity 1s;
   transition: opacity 1s;
 }
@@ -50,7 +49,6 @@ html {
   opacity: 1;
   -webkit-transition: opacity 1s;
   transition: opacity 1s;
-  border-radius: 5px;
 }
 
 .cyberpunk {
