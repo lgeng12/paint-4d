@@ -40,7 +40,7 @@ html {
 }
 
 #qr {
-  opacity: 0.05;
+  opacity: 0.2;
   -webkit-transition: opacity 1s;
   transition: opacity 1s;
 }
@@ -61,3 +61,7 @@ html {
   background-color: #383e65 !important;
   border: 1px solid #defe47;
 }
+
+ol {
+    padding-left: 20px;
+}​

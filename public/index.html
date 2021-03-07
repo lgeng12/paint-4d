@@ -137,5 +137,41 @@
         </div>
       </div>
     </div>
+
+    <div
+      class="modal fade"
+      id="helloModal"
+      tabindex="-1"
+      role="dialog"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Welcome to Paint4D!</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <strong>Instructions (Please use Google Chrome!)</strong>
+            <ol>
+              <li> Enable your computer's camera access<br>(camera feeds are not shared) </li>
+              <li> Hover over the QR code and scan with your phone </li>
+              <li> Point your phone screen at your computer's webcam </li>
+              <li> Press and hold on your phone screen to draw </li>
+              <li> Move your phone around to create a line </li>
+              <li> Try loading an example drawing! </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script>$("#helloModal").modal("show");</script>
   </body>
 </html>
