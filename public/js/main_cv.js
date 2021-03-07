@@ -153,7 +153,7 @@ function updateScenes(markers) {
     coord[2] -= 400;
     
     var diff = [current_coord[0] - coord[0], current_coord[1] - coord[1], current_coord[2] - coord[2]];
-    diff = diff.map(x => x / 5);
+    diff = diff.map(x => x / 3);
     current_coord = [coord[0]+diff[0], coord[1]+diff[1], coord[2]+diff[2]];
     coord = current_coord;
     

@@ -1,12 +1,23 @@
 
 // tracker icon changing
-function change_picture() {
+function on_picture() {
   var tracker = document.getElementById("tracker");
   var status = document.getElementById("status");
   console.log(name);
   var name = tracker.style.backgroundImage;
-  tracker.style.backgroundImage = name.endsWith("assets/aruco-220.svg\")") ? "url(\"assets/aruco-1023.svg\")" : "url(\"assets/aruco-220.svg\")";
-  status.innerHTML = name.endsWith("assets/aruco-220.svg\")") ? "OFF" : "ON";
+  tracker.style.backgroundImage = "url(\"assets/aruco-1023.svg\")";
+  status.innerHTML = "ON";
+  openFullscreen();
+}
+
+// tracker icon changing
+function off_picture() {
+  var tracker = document.getElementById("tracker");
+  var status = document.getElementById("status");
+  console.log(name);
+  var name = tracker.style.backgroundImage;
+  tracker.style.backgroundImage = "url(\"assets/aruco-220.svg\")";
+  status.innerHTML = "OFF";
   openFullscreen();
 }
 
