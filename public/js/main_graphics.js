@@ -58,7 +58,7 @@ var clientData = {};
 
 socket.on("server-update", function(packet) {
   clientData = Object.assign({}, clientData, packet);
-  updateAllLines(clientData);
+  updateAllLines(packet);
   // console.log(clientData);
 });
 
