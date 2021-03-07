@@ -44,6 +44,39 @@ var controls = new THREE.OrbitControls(camera, renderer.domElement);
 var axesHelper = new THREE.AxesHelper(250);
 scene.add(axesHelper);
 
+/// retrowave
+function addRoad() {
+  let roadGeometry = new THREE.PlaneBufferGeometry(12, 300, 0, 0);
+  roadGeometry.translate(0, 110, 0.1);
+  roadGeometry.rotateX(-Math.PI * 0.5);
+
+  let roadMaterial = new THREE.MeshBasicMaterial({
+      color: 0x03353b,
+      transparent: true,
+      opacity: 0.7,
+  });
+
+  // Add road to scene
+  this.road = new THREE.Mesh(roadGeometry, roadMaterial);
+  this.scene.add(this.road);
+}
+
+function addFloor() {
+  let floorGeometry = new THREE.PlaneBufferGeometry(300, 300, 0, 0);
+  floorGeometry.translate(0, 110, 0);
+  floorGeometry.rotateX(-Math.PI * 0.5);
+  let floorMaterial = new THREE.MeshBasicMaterial({
+      color: 0xff1e99,
+  });
+  this.createGridMaterial(floorMaterial);
+
+  // Add floor to scene
+  grid = new THREE.Mesh(floorGeometry, floorMaterial);
+  scene.add(this.grid);
+}
+
+function
+
 ///////////////////////////////////////////////// DATA STRUCTURES
 
 // format:
