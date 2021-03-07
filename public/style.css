@@ -1,6 +1,3 @@
-brand-primary:         #ffffff;
-$brand-danger:          #ffffff;
-
 #canvas {
   -moz-transform: scale(-1, 1);
   -webkit-transform: scale(-1, 1);
@@ -13,6 +10,18 @@ $brand-danger:          #ffffff;
   position: absolute;
   right: 25px;
   bottom: 25px;
+  opacity: .2;
+  -webkit-transition: opacity 1s;
+  transition: opacity 1s;
+}
+
+#picker:hover {
+  position: absolute;
+  right: 25px;
+  bottom: 25px;
+  opacity: 1;
+  -webkit-transition: opacity 1s;
+  transition: opacity 1s;
 }
 
 html {
@@ -41,13 +50,12 @@ html {
   border-radius: 5px;
 }
 
-.bottom_button {
-  background-color: #00b3fe !important;
-  border: 0px solid #defe47 !important;
+#bottom_button_1 #bottom_button_2 {
+  background-color: #00b3fe;
+  border: 0px solid #defe47;
 }
-
-.bottom_button:hover .bottom_button:active {
+/* 
+#bottom_button_1:hover #bottom_button_1:active #bottom_button_2:hover #bottom_button_2:active {
   background-color: #00b3fe !important;
-/*   background-color: #ffff00; */
-  border: 30px solid #defe47 !important;
-}
+  border: 30px solid #defe47;
+} */

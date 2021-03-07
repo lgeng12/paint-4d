@@ -19,6 +19,7 @@ var io = require("socket.io")(server);
 // to deal with a received message: socket.on(title,function(data){ frob(data); })
 
 var serverData = {}; // everyone's data
+var serverCursorData = {};
 // format:
 // {
 //   'falaehflbnabu': {points: THREE.Vector3(), color: '#abcdef', width: 1},
@@ -64,6 +65,10 @@ function newConnection(socket) {
     socket.broadcast.emit("server-undo", socket.id, line_id);
     delete serverData[socket.id][line_id];
   });
+  
+  socket.on("client-cursor", function(cursorPacket) {
+    serverCursorData = Object.assign({}, serverCursorData, cursorPacket);
+  });
 
   // every couple milliseconds we send to this client
   // the data of everybody else
@@ -77,6 +82,8 @@ function newConnection(socket) {
     delete serverData[socket.id];
   });
 }
+
+function sendCursorData
 
 
 //////////////// FIREBASE STUFF ////////////////
@@ -96,7 +103,11 @@ firebase.initializeApp({
 app.get("db/load", function (req, res) {
   var filename = req.query.filename;
   
-  // docRef.get()
+  docRef.get().then(function (doc){
+    if (doc && doc.exists) {
+      const myData = doc.data();
+    }
+  });
   
   res.send("the lines data");
 });
@@ -105,8 +116,11 @@ app.get("db/save", function (req, res) {
   
   var clientData = {}; 
   var data = {};
-  data['filename'] = clientData.stringify();
-  docRef.set(data).then(function);
+  var filename = 'adsflhjks'
+  data[filename] = clientData.stringify();
+  docRef.set(data)
+    .then(function() {console.log(filename, ' saved!')})
+    .catch(function (error) {console.log('Save Error: ', error)});
   
   res.send("the lines data");
 });

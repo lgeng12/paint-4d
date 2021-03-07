@@ -52,6 +52,7 @@ scene.add(axesHelper);
 //   'vaivbsoabvirbaivbi': {points: THREE.Vector3(), color: '#abcdef', width: 1},
 // }
 var clientData = {};
+var clientCursorData = {};
 var lineIDStack = [];
 
 function lineIDStack_push(line_id) {
@@ -194,6 +195,10 @@ function updateSphere(id, coords) {
     window[id].position.y = new_coord.y;
     window[id].position.z = new_coord.z;
   }
+  
+  cursorPacket = {};
+  cursorPacket[client_id] = [new_coord.x, new_coord.y, new_coord.z];
+  socket.emit("client-cursor", cursorPacket);
 }
 
 ///////////////////////////////////////////////// ANIMATE LOOP
