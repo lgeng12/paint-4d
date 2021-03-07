@@ -40,3 +40,7 @@ html {
   transition: opacity 1s;
   border-radius: 5px;
 }
+
+#undo-btn {
+  background-color: #ff0000;
+}

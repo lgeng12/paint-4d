@@ -17,8 +17,12 @@
     <link rel="stylesheet" href="/style.css" />
 
     <!--     Libraries -->
-    
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
     <script
       src="https://cdn.socket.io/3.1.1/socket.io.min.js"
       integrity="sha384-gDaozqUvc4HTgo8iZjwth73C6dDDeOJsAgpxBcMpZYztUfjHXpzrpdrHRdVp8ySO"
@@ -63,18 +67,20 @@
         Begone ma lines broh!
       </button>
       <button
+        id="undo-btn"
         onclick="undo()"
         type="button"
-        class="btn btn-lg d-inline-block ml-2"
-        style="width: 250px; background-color: 'FFFFFF'"
+        class="btn btn-danger btn-lg d-inline-block ml-2"
+        style="width: 250px;"
       >
         Undu
       </button>
     </div>
     <div
+      class="btn-group-vertical"
       style="position: absolute; left: 20px; top: 20px; "
     >
-      <button 
+      <button
         onclick="save()"
         type="button"
         class="btn btn-info btn-lg mb-2"
@@ -82,7 +88,6 @@
       >
         BSave !
       </button>
-      <br>
       <button
         onclick="load()"
         type="button"
@@ -95,11 +100,7 @@
     <div
       style="position: absolute; left: 20px; bottom: 20px; display: flex; flex-flow: column;"
     >
-      <img
-        id="qr"
-        src="assets/qrcode.png"
-        width="100px"
-      />
+      <img id="qr" src="assets/qrcode.png" width="100px" />
     </div>
   </body>
 </html>
