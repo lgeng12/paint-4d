@@ -7,8 +7,9 @@ function onLoad() {
   canvas = document.getElementById("canvas");
   context = canvas.getContext("2d");
 
-  canvas.width = 1280;
-  canvas.height = 720;
+  console.log(canvas.style);
+  canvas.width = canvas.style.width;
+  canvas.height = canvas.style.height;
 
   if (navigator.mediaDevices === undefined) {
     navigator.mediaDevices = {};
@@ -175,5 +176,3 @@ function updateScenes(markers) {
     updateSphere("cursor", coord);
   }
 }
-
-window.onload = onLoad;
