@@ -1,11 +1,9 @@
-var randomColor = Math.floor(Math.random()*16777215).toString(16);
-var randomColor2 = 'hsl(' + Math.round(randRange(0,359)).toString() + ', 100%, 100%)';
-console.log(randomColor2);
+var randomColor = 'hsl(' + Math.round(randRange(0,359)).toString() + ', 100%, 50%)';
 
 var colorPicker = new iro.ColorPicker("#picker", {
   // Set the size of the color picker
   width: 200,
-  color: randomColor2
+  color: randomColor
 });
 
 ///////////////////////////////////////////////// SETUP
