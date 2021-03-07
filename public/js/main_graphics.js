@@ -56,10 +56,10 @@ scene.add(axesHelper);
 
 let clientData = {};
 
-// socket.on("server-update", function(packet) {
-//   clientData = packet;
-//   console.log(clientData);
-// });
+socket.on("server-update", function(packet) {
+  // clientData = packet;
+  // console.log(packet);
+});
 
 function updateCoordinateList(id, coord) {
   
