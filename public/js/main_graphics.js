@@ -57,8 +57,6 @@ scene.add(axesHelper);
 let clientData = {};
 
 socket.on("server-update", function(packet) {
-  console.log('clientData', clientData);
-  console.log('packet', packet);
   clientData = Object.assign({}, clientData, packet);
   updateAllLines(clientData);
 });
@@ -94,31 +92,34 @@ function updateLine(id, line) { // updates lines passed from servers
     var positions = Float32Array.from(line.points);
     line_geometry.setAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
     line_geometry.setDrawRange(0, positions.length);
-    window[id] = new THREE.Line(line_geometry, line_mat);
-    scene.add( window[id] );
+    obj = new THREE.Line(line_geometry, line_mat);
+    scene.add( obj );
     
   } 
   else { // if exists, update geometry
     
-    window[id].material.color = new THREE.Color( 0xffffff );         
-    window[id].material.needsUpdate = true;
+    obj.material.color = new THREE.Color( 0xffffff );         
+    obj.material.needsUpdate = true;
     
     for (var i = 0; i < line.points.length; i++) {
       var tmp = line.points[i];
-      window[id].geometry.attributes.position.array[i] = tmp.x;
-      window[id].geometry.attributes.position.array[i+1] = tmp.y;
-      window[id].geometry.attributes.position.array[i+2] = tmp.z;
+      obj.geometry.attributes.position.array[i] = tmp.x;
+      obj.geometry.attributes.position.array[i+1] = tmp.y;
+      obj.geometry.attributes.position.array[i+2] = tmp.z;
     }
   }
   
   // Notify all other clients of updates
   // 'falaehflbnabu': {points: THREE.Vector3(), color: '#abcdef', width: 1},
   var packet = {};
-  packet[id] = window[id];
-  socket.emit('client-update', {type: 'lines', data: packet});
+  packet[id] = obj.geometry.attributes.position.array;
+  socket.emit('client-update', packet);
 }
 
 function updateAllLines(lines) {
+  
+  console.log(lines);
+  
   for (var key in lines) {
     console.log('key: ', key);
     console.log(lines[key]);

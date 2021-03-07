@@ -36,23 +36,18 @@ function newConnection(socket) {
 
   // ok you're in
   socket.emit("connection-approve");
-  socket.emit("server-update", { lines: lines }); // Send current list of lines
+  socket.emit("server-update", lines); // Send current list of lines
 
   // what to do when client sends us a message titled 'client-update'
-  socket.on("client-update", function(packet) {
+  socket.on("client-update", function(new_lines) {
     // Data packet format:
-    // {type: 'lines'|'other', data: [the data]}
-    // data is in the exact same format as lines
+    // new_lines is in the exact same format as lines
     // Assumption: lines in data are new and not already in lines
 
     // CASEY
-    // packet["type"] == 'lines'
-    if (packet["type"] == "lines") {
       // packet.data == packet["data"]
-      var new_lines = packet["data"];
       lines = Object.assign({}, lines, new_lines);
       console.log(lines);
-    }
 
     let rockets = io.sockets.connected;
     for(var k in rockets){
