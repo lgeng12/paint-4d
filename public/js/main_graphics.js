@@ -1,6 +1,6 @@
 var colorPicker = new iro.ColorPicker("#picker", {
   // Set the size of the color picker
-  width: 250,
+  width: 200,
   // Set the initial color to pure red
   color: "#ffaa00"
 });
@@ -21,9 +21,12 @@ var camera = new THREE.PerspectiveCamera( 45, aspectRatio, 0.1, 10000 );
 // );
 scene.add(camera);
 
-camera.position.x = 250;
-camera.position.y = 175;
-camera.position.z = 325;
+var camera_pos = new THREE.Vector3;
+camera_pos.random();
+var mag = 300;
+camera.position.x = mag * camera_pos.x;
+camera.position.y = mag * camera_pos.y;
+camera.position.z = mag * camera_pos.x;
 camera.lookAt(scene.position);
 
 var light = new THREE.AmbientLight(0xffffff, 0.75);
@@ -57,6 +60,8 @@ var clientData = {};
 
 socket.on("server-update", function(packet) {
   var other_client_id = Object.keys(packet)[0];
+  if (clientData[other_client_id] == undefined)
+    clientData[other_client_id] = {};
   clientData[other_client_id] = Object.assign({}, clientData[other_client_id], packet[other_client_id])
   // clientData = Object.assign({}, clientData, packet);
   updateAllLines(packet[other_client_id]);
@@ -65,15 +70,18 @@ socket.on("server-update", function(packet) {
 
 function updateCoordinateList(line_id, coord) {
   
-  if (clientData[client_id, line_id] == undefined) {
-    clientData[client_id, line_id] = {points: [], color: colorPicker.color.hexString, width: 10}
+  if (clientData[client_id] == undefined) {
+    clientData[client_id] = {};
+  }
+  if (clientData[client_id][line_id] == undefined) {
+    clientData[client_id][line_id] = {points: [], color: colorPicker.color.hexString, width: 10}
   }
   
   var cam_mat = camera.matrixWorld;
   var coordinate = new THREE.Vector3(-coord[0], coord[1], coord[2]);
   var new_coord = coordinate.applyMatrix4(cam_mat);
   
-  var cur_line = clientData[line_id]
+  var cur_line = clientData[client_id][line_id]
   cur_line.points.push(new_coord.x);
   cur_line.points.push(new_coord.y);
   cur_line.points.push(new_coord.z);
