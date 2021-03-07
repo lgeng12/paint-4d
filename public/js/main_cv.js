@@ -58,8 +58,15 @@ function tick() {
 
     var markers = detector.detect(imageData);
     drawCorners(markers);
-    drawId(markers);
+    // drawId(markers);
     updateScenes(markers);
+    
+    if(markers.length > 0) {
+      // hightlight video frame
+      canvas.style.border = "thick solid #FF0000";
+    } else {
+      canvas.style.border = "none";
+    }
   }
 }
 

@@ -56,8 +56,10 @@ scene.add(axesHelper);
 
 var clientData = {};
 
-socket.on("server-update", function(packet) {
-  clientData = Object.assign({}, clientData, packet);
+socket.on("server-update", function(packet) { // packet format: {client id: num, client id, }, }
+  clientData = clientData.map()
+  clientData = Object.assign({}, clientData[client_id], packet[client_id])
+  // clientData = Object.assign({}, clientData, packet);
   updateAllLines(packet);
   // console.log(clientData);
 });
