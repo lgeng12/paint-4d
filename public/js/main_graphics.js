@@ -86,6 +86,12 @@ socket.on("server-undo", function(other_client_id, line_id) {
   deleteLine(line_id, clientData[other_client_id][line_id], other_client_id);
 });
 
+socket.on("server-cursor", function(cursorPacket) {
+  for (var other_client_id in cursorPacket) {
+    updateCursor(other_client_id + "cursor", cursorPacket[other_client_id]);
+  }
+});
+
 function updateCoordinateList(line_id, coord) {
   
   if (clientData[client_id] == undefined) {
@@ -178,7 +184,7 @@ function undo() {
   }
 }
 
-function updateSphere(id, coords) {
+function updateCursor(id, coords) {
   // var obj = scene.getObjectByName(id);
   var obj = window[id];
   
@@ -196,8 +202,15 @@ function updateSphere(id, coords) {
     window[id].position.z = new_coord.z;
   }
   
-  cursorPacket = {};
-  cursorPacket[client_id] = [new_coord.x, new_coord.y, new_coord.z];
+  clientCursorData[id] = [new_coord.x, new_coord.y, new_coord.z];
+}
+
+function updateSelfCursor(coords) {
+  var cursor_id = client_id + "cursor";
+  updateCursor(cursor_id, coords);
+  
+  var cursorPacket = {};
+  cursorPacket[client_id] = clientCursorData[cursor_id];
   socket.emit("client-cursor", cursorPacket);
 }
 

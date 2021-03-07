@@ -28,6 +28,8 @@ var serverCursorData = {};
 
 console.log("listening...");
 
+setInterval(sendCursorData, 100);
+
 // what to do when there's a new player connection:
 io.sockets.on("connection", newConnection);
 function newConnection(socket) {
@@ -83,7 +85,10 @@ function newConnection(socket) {
   });
 }
 
-function sendCursorData
+function sendCursorData() {
+
+      clients[i].emit('server-cursor', serverCursorData);
+}
 
 
 //////////////// FIREBASE STUFF ////////////////
@@ -94,11 +99,16 @@ const docRef = 'p4dfiles/';
 require("firebase/firestore");
 
 // Initialize Cloud Firestore through Firebase
-firebase.initializeApp({
-  apiKey: '### FIREBASE API KEY ###',
-  authDomain: '### FIREBASE AUTH DOMAIN ###',
-  projectId: '### CLOUD FIRESTORE PROJECT ID ###'
-});
+var firebaseConfig = {
+    apiKey: "AIzaSyChCQ6Oj1zPRiHfIe0bHZWH4M0LXydjSS8",
+    authDomain: "paint4d-9da57.firebaseapp.com",
+    projectId: "paint4d-9da57",
+    storageBucket: "paint4d-9da57.appspot.com",
+    messagingSenderId: "606510408605",
+    appId: "1:606510408605:web:35c5e804ab9dfaac274574"
+  };
+
+firebase.initializeApp(firebaseConfig);
 
 app.get("db/load", function (req, res) {
   var filename = req.query.filename;

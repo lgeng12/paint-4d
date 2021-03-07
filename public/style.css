@@ -50,12 +50,12 @@ html {
   border-radius: 5px;
 }
 
-#bottom_button_1 #bottom_button_2 {
-  background-color: #00b3fe;
-  border: 0px solid #defe47;
+#undo_btn, #clear_btn {
+  background-color: #383e65;
+  border: 3px solid #00b3fe;
 }
-/* 
-#bottom_button_1:hover #bottom_button_1:active #bottom_button_2:hover #bottom_button_2:active {
-  background-color: #00b3fe !important;
-  border: 30px solid #defe47;
-} */
+
+#undo_btn:hover, #undo_btn:active, #clear_btn:hover, #clear_btn:active {
+  background-color: #383e65;
+  border: 3px solid #defe47;
+}
