@@ -1,24 +1,15 @@
 
 // tracker icon changing
 function on_picture() {
-  var tracker = document.getElementById("tracker");
-  var status = document.getElementById("status");
-  console.log(name);
-  var name = tracker.style.backgroundImage;
-  tracker.style.backgroundImage = "url(\"assets/aruco-1023.svg\")";
-  status.innerHTML = "ON";
-  openFullscreen();
+  document.getElementById("tracker").style.backgroundImage = "url(\"assets/aruco-220.svg\")";
+  document.getElementById("status").innerHTML = "ON";
+  //openFullscreen();
 }
 
 // tracker icon changing
 function off_picture() {
-  var tracker = document.getElementById("tracker");
-  var status = document.getElementById("status");
-  console.log(name);
-  var name = tracker.style.backgroundImage;
-  tracker.style.backgroundImage = "url(\"assets/aruco-220.svg\")";
-  status.innerHTML = "OFF";
-  openFullscreen();
+  document.getElementById("tracker").style.backgroundImage = "url(\"assets/aruco-1023.svg\")";
+  document.getElementById("status").innerHTML = "OFF";
 }
 
 // Open fullscreen
