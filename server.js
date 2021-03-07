@@ -109,13 +109,24 @@ var firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-const firestore = firebase.firestore();
+const db = firebase.firestore();
 const root = "p4dfiles/";
 
 // LOADING FILES
+app.get("/db/list", async function(req, res) {
+  
+  var docRef = db.collection('p4dfiles');
+  var snapshot = await docRef.get();
+  var list = [];
+  snapshot.forEach(doc => list.push(doc.id));
+
+  res.send(list);
+})
+
+// LOADING A PARTICULAR FILE
 app.get("/db/load", function(req, res) {
   var filename = req.query.filename;
-  var docRef = firestore.doc(root);
+  var docRef = db.doc(root + filename);
   var myData;
 
   docRef
@@ -123,8 +134,6 @@ app.get("/db/load", function(req, res) {
     .then(function(doc) {
       if (doc && doc.exists) {
         myData = doc.data();
-        console.log(myData);
-        
       } else {
         res.sendStatus(400);
         return;
@@ -141,7 +150,7 @@ app.get("/db/load", function(req, res) {
 // SAVING FILES
 app.get("/db/save", function(req, res) {
   var filename = req.query.filename;
-  var docRef = firestore.doc(root + filename);
+  var docRef = db.doc(root + filename);
   // var data = JSON.stringify(serverData);
 
   docRef
