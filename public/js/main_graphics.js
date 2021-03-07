@@ -76,7 +76,8 @@ function addFloor() {
   this.scene.add(grid);
 }
 
-// addFloor();
+addFloor();
+addRoad();
 
 function createGridMaterial(materialVar) {
   materialVar.onBeforeCompile = (shader) => {
