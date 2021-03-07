@@ -22,3 +22,4 @@ socket.on('connection-approve', function(data){
 function showHelp() {
   $("#helloModal").modal("show");
 }
+showHelp();
