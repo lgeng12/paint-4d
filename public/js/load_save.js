@@ -25,9 +25,9 @@ function handleClick(filename) {
 
 function load() {
   $.get("db/list", function(files) {
-    $("#loadfilemodal").innerHTML = "";
+    $("#loadfilemodal-content").innerHTML = "";
     for (var file in files) {
-      $("#loadfilemodal").innerHTML +=
+      $("#loadfilemodal-content").innerHTML +=
         "<a onClick=\"handleClick('" +
         file +
         '\')" class="badge badge-light mr-2">' +
