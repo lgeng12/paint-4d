@@ -59,7 +59,7 @@ var clientData = {};
 socket.on("server-update", function(packet) {
   clientData = Object.assign({}, clientData, packet);
   updateAllLines(clientData);
-  console.log(clientData);
+  // console.log(clientData);
 });
 
 function updateCoordinateList(id, coord) {
@@ -77,6 +77,12 @@ function updateCoordinateList(id, coord) {
   cur_line.points.push(new_coord.y);
   cur_line.points.push(new_coord.z);
   updateLine(id, cur_line)
+  
+  // Notify all other clients of updates
+  // 'falaehflbnabu': {points: float32 arr[], color: '#abcdef'},
+  var packet = {}
+  packet[id] = cur_line;
+  socket.emit('client-update', packet);
 }
 
 function updateLine(id, line) { // updates lines passed from servers
@@ -104,13 +110,6 @@ function updateLine(id, line) { // updates lines passed from servers
     window[id].geometry.setAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
     window[id].geometry.setDrawRange(0, positions.length);
   }
-  
-  // Notify all other clients of updates
-  // 'falaehflbnabu': {points: THREE.Vector3(), color: '#abcdef'},
-  var packet = {};
-  packet[id] = {points: window[id].geometry.attributes.position.array, color: line.color};
-  // console.log(packet);
-  socket.emit('client-update', packet);
 }
 
 function updateAllLines(lines) {
