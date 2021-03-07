@@ -5,7 +5,7 @@ require("dotenv").config();
 // express (https://expressjs.com/) is a simple node.js framework for writing servers
 const express = require("express");
 const app = express();
-var server = app.listen(process.env.PORT || 3000);
+var server = app.listen(process.env.PORT || 8080);
 
 // make all the files in 'public' available
 // https://expressjs.com/en/starter/static-files.html
@@ -57,6 +57,7 @@ function newConnection(socket) {
   
   socket.on("client-clear", function(client_id) {
     socket.broadcast.emit("server-clear", client_id);
+    delete serverData[client_id];
   });
 
   // every couple milliseconds we send to this client
@@ -67,5 +68,7 @@ function newConnection(socket) {
   // the client disconnected, let's wipe up after them
   socket.on("disconnect", function() {
     console.log(socket.id + " disconnected");
+    socket.broadcast.emit("server-clear", socket.id);
+    delete serverData[socket.id];
   });
 }

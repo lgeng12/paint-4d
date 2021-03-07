@@ -119,7 +119,11 @@ function updateLine(id, line) { // updates lines passed from servers
     line_geometry.setAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
     line_geometry.setDrawRange(0, positions.length);
     window[id] = new THREE.Line(line_geometry, line_mat);
-    scene.add( window[id] );
+    
+    obj = window[id];
+    obj.name = id;
+    scene.add(obj);
+    // scene.add( window[id] );
     
   } 
   else { // if exists, update geometry
@@ -138,9 +142,9 @@ function updateAllLines(lines) {
 }
 
 function deleteLine(id, line, other_client_id) {
-  console.log("IA M CALLED");
   var obj = scene.getObjectByName(id);
   if (obj != undefined) {
+    console.log('i am called');
     scene.remove(obj);
   }
   if (window[id] != undefined) {
