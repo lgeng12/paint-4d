@@ -56,7 +56,7 @@ function newConnection(socket) {
     let rockets = io.sockets.connected;
     for(var k in rockets){
       var rocket = rockets[k];
-      rocket.emit('server-update', { lines: new_lines });
+      rocket.emit('server-update', new_lines);
     }
   });
 

@@ -56,10 +56,11 @@ scene.add(axesHelper);
 
 let clientData = {};
 
-// socket.on("server-update", function(packet) {
-//   // clientData = packet;
-//   console.log(packet);
-// });
+socket.on("server-update", function(packet) {
+  clientData = Object.assign({}, clientData, packet);
+  // updateAllLines(clientData);
+  console.log(clientData);
+});
 
 function updateCoordinateList(id, coord) {
   
@@ -111,12 +112,14 @@ function updateLine(id, line) { // updates lines passed from servers
   
   // Notify all other clients of updates
   // 'falaehflbnabu': {points: THREE.Vector3(), color: '#abcdef', width: 1},
-  // socket.emit('client-update', window[id])
+  socket.emit('client-update', {type: 'lines', data: {id: window[id]}});
 }
 
 function updateAllLines(lines) {
-  for (var i = 0; i < lines.length; i++) {
-    updateLine(lines[i]);
+  for (var key in lines) {
+    console.log('key: ', key);
+    console.log(lines[key]);
+    updateLine(key, lines[key]);
   }
 }
 
