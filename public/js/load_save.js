@@ -25,14 +25,16 @@ function handleClick(filename) {
 
 function load() {
   $.get("db/list", function(files) {
-    $("#loadfilemodal-content").innerHTML = "";
-    for (var file in files) {
-      $("#loadfilemodal-content").innerHTML +=
-        "<a onClick=\"handleClick('" +
-        file +
-        '\')" class="badge badge-light mr-2">' +
-        file +
-        "</a>";
+    $("#loadfilemodal-content").empty();
+    for (var file of files) {
+      console.log(file);
+      $("#loadfilemodal-content").append(
+        '<a onClick="handleClick(\'' +
+          file +
+          '\')" class="badge badge-light p-2 mr-2">' +
+          file +
+          "</a>"
+      );
     }
     $("#loadfilemodal").modal("show");
   });

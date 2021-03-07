@@ -76,6 +76,8 @@ function addFloor() {
   this.scene.add(grid);
 }
 
+// addFloor();
+
 function createGridMaterial(materialVar) {
   materialVar.onBeforeCompile = (shader) => {
        shader.uniforms.speed = {
