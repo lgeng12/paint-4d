@@ -21,12 +21,11 @@ var camera = new THREE.PerspectiveCamera( 45, aspectRatio, 0.1, 10000 );
 // );
 scene.add(camera);
 
-var camera_pos = new THREE.Vector3;
-camera_pos.random();
 var mag = 300;
-camera.position.x = mag * camera_pos.x;
-camera.position.y = mag * camera_pos.y;
-camera.position.z = mag * camera_pos.x;
+var off = 100;
+camera.position.x = off + mag * Math.random();
+camera.position.y = off + mag * Math.random();
+camera.position.z = off + mag * Math.random();
 camera.lookAt(scene.position);
 
 var light = new THREE.AmbientLight(0xffffff, 0.75);
@@ -59,12 +58,18 @@ scene.add(axesHelper);
 var clientData = {};
 
 socket.on("server-update", function(packet) {
-  var other_client_id = Object.keys(packet)[0];
-  if (clientData[other_client_id] == undefined)
-    clientData[other_client_id] = {};
-  clientData[other_client_id] = Object.assign({}, clientData[other_client_id], packet[other_client_id])
+  for (let other_client_id in packet) {
+    if (clientData[other_client_id] == undefined)
+      clientData[other_client_id] = {};
+    clientData[other_client_id] = Object.assign({}, clientData[other_client_id], packet[other_client_id]);
+    updateAllLines(packet[other_client_id]);
+  }
+  // var other_client_id = Object.keys(packet)[0];
+  //  if (clientData[other_client_id] == undefined)
+  //   clientData[other_client_id] = {};
+  // clientData[other_client_id] = Object.assign({}, clientData[other_client_id], packet[other_client_id])
   // clientData = Object.assign({}, clientData, packet);
-  updateAllLines(packet[other_client_id]);
+  // updateAllLines(packet[other_client_id]);
   // console.log(clientData);
 });
 
