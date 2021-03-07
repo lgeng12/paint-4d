@@ -88,7 +88,8 @@ socket.on("server-undo", function(other_client_id, line_id) {
 
 socket.on("server-cursor", function(cursorPacket) {
   for (var other_client_id in cursorPacket) {
-    updateCursor(other_client_id + "cursor", cursorPacket[other_client_id]);
+    if (other_client_id !== client_id)
+      updateCursor(other_client_id + "cursor", cursorPacket[other_client_id]);
   }
 });
 
@@ -193,21 +194,23 @@ function updateCursor(id, coords) {
     window[id] = new THREE.Mesh(sphere_geometry, new THREE.MeshBasicMaterial( {color: 0xffffff, transparent: true, opacity: 0.5} ));
     scene.add(window[id]);
   }
-  else {
-    var cam_mat = camera.matrixWorld;
-    var coordinate = new THREE.Vector3(-coords[0], coords[1], coords[2]);
-    var new_coord = coordinate.applyMatrix4(cam_mat);
-    window[id].position.x = new_coord.x;
-    window[id].position.y = new_coord.y;
-    window[id].position.z = new_coord.z;
-  }
-  
-  clientCursorData[id] = [new_coord.x, new_coord.y, new_coord.z];
+  // var cam_mat = camera.matrixWorld;
+  // var coordinate = new THREE.Vector3(-coords[0], coords[1], coords[2]);
+  // var new_coord = coordinate.applyMatrix4(cam_mat);
+  window[id].position.x = coords[0];
+  window[id].position.y = coords[1];
+  window[id].position.z = coords[2];
+  clientCursorData[id] = [coords[0], coords[1], coords[2]];
 }
 
 function updateSelfCursor(coords) {
   var cursor_id = client_id + "cursor";
-  updateCursor(cursor_id, coords);
+  
+  var cam_mat = camera.matrixWorld;
+  var coordinate = new THREE.Vector3(-coords[0], coords[1], coords[2]);
+  var new_coord = coordinate.applyMatrix4(cam_mat);
+  
+  updateCursor(cursor_id, [new_coord.x, new_coord.y, new_coord.z]);
   
   var cursorPacket = {};
   cursorPacket[client_id] = clientCursorData[cursor_id];

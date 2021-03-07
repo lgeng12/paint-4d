@@ -52,10 +52,11 @@ html {
 
 #undo_btn, #clear_btn {
   background-color: #383e65;
-  border: 3px solid #00b3fe;
+  border: 1px solid #ff124f;
+  border-radius: 5px;
 }
 
 #undo_btn:hover, #undo_btn:active, #clear_btn:hover, #clear_btn:active {
   background-color: #383e65;
-  border: 3px solid #defe47;
+  border: 1px solid #defe47;
 }

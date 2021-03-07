@@ -5,7 +5,7 @@ require("dotenv").config();
 // express (https://expressjs.com/) is a simple node.js framework for writing servers
 const express = require("express");
 const app = express();
-var server = app.listen(process.env.PORT || 8080);
+var server = app.listen(process.env.PORT || 3000);
 
 // make all the files in 'public' available
 // https://expressjs.com/en/starter/static-files.html
@@ -87,7 +87,7 @@ function newConnection(socket) {
 
 function sendCursorData() {
 
-      clients[i].emit('server-cursor', serverCursorData);
+  io.emit('server-cursor', serverCursorData);
 }
 
 
@@ -110,6 +110,7 @@ var firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+// LOADING FILES
 app.get("db/load", function (req, res) {
   var filename = req.query.filename;
   
@@ -121,18 +122,17 @@ app.get("db/load", function (req, res) {
   
   res.send("the lines data");
 });
+
+// SAVING FILES
 app.get("db/save", function (req, res) {
-  var filename = req.query.filename;
-  
-  var clientData = {}; 
   var data = {};
-  var filename = 'adsflhjks'
-  data[filename] = clientData.stringify();
+  var filename = req.query.filename;
+  data[filename] = serverData.stringify();
   docRef.set(data)
     .then(function() {console.log(filename, ' saved!')})
     .catch(function (error) {console.log('Save Error: ', error)});
   
-  res.send("the lines data");
+  res.send("success");
 });
 
 var db = firebase.firestore();
