@@ -28,7 +28,7 @@ html {
 }
 
 #qr {
-  opacity: 0.2;
+  opacity: 0.05;
   border-radius: 5px;
   -webkit-transition: opacity 1s;
   transition: opacity 1s;
@@ -41,6 +41,13 @@ html {
   border-radius: 5px;
 }
 
-#undo-btn {
-  background-color: #ff0000;
+.bottom_button {
+  background-color: #00b3fe !important;
+  border: 0px solid #defe47 !important;
+}
+
+.bottom_button:hover .bottom_button:active {
+  background-color: #00b3fe !important;
+/*   background-color: #ffff00; */
+  border: 30px solid #defe47 !important;
 }

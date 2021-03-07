@@ -82,9 +82,9 @@ function newConnection(socket) {
 //////////////// FIREBASE STUFF ////////////////
 
 const firebase = require("firebase");
+const docRef = 'p4dfiles/';
 // Required for side-effects
 require("firebase/firestore");
-
 
 // Initialize Cloud Firestore through Firebase
 firebase.initializeApp({
@@ -96,10 +96,17 @@ firebase.initializeApp({
 app.get("db/load", function (req, res) {
   var filename = req.query.filename;
   
+  // docRef.get()
+  
   res.send("the lines data");
 });
 app.get("db/save", function (req, res) {
   var filename = req.query.filename;
+  
+  var clientData = {}; 
+  var data = {};
+  data['filename'] = clientData.stringify();
+  docRef.set(data).then(function);
   
   res.send("the lines data");
 });
