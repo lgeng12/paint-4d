@@ -63,9 +63,9 @@ function tick() {
     
     if(markers.length > 0) {
       // hightlight video frame
-      canvas.style.border = "thick solid #F3E600";
+      canvas.style.border = "thick solid #FF0000";
     } else {
-      canvas.style.border = "thick solid #FF003C";
+      canvas.style.border = "thick solid #00000000";
     }
   }
 }

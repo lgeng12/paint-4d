@@ -1,3 +1,6 @@
+brand-primary:         #ffffff;
+$brand-danger:          #ffffff;
+
 #canvas {
   -moz-transform: scale(-1, 1);
   -webkit-transform: scale(-1, 1);

@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="/style.css" />
 
     <!--     Libraries -->
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script
       src="https://cdn.socket.io/3.1.1/socket.io.min.js"
       integrity="sha384-gDaozqUvc4HTgo8iZjwth73C6dDDeOJsAgpxBcMpZYztUfjHXpzrpdrHRdVp8ySO"
@@ -63,8 +65,8 @@
       <button
         onclick="undo()"
         type="button"
-        class="btn btn-danger btn-lg d-inline-block ml-2"
-        style="width: 250px"
+        class="btn btn-lg d-inline-block ml-2"
+        style="width: 250px; background-color: 'FFFFFF'"
       >
         Undu
       </button>
@@ -72,7 +74,8 @@
     <div
       style="position: absolute; left: 20px; top: 20px; "
     >
-      <button onclick="save()"
+      <button 
+        onclick="save()"
         type="button"
         class="btn btn-info btn-lg mb-2"
         style="width: 150px"

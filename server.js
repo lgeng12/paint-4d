@@ -93,4 +93,15 @@ firebase.initializeApp({
   projectId: '### CLOUD FIRESTORE PROJECT ID ###'
 });
 
+app.get("db/load", function (req, res) {
+  filename = req.query.filename;
+  
+  res.send(the lines data);
+});
+app.get("db/save", function (req, res) {
+  filename = req.query.filename;
+  
+  res.send(the lines data);
+});
+
 var db = firebase.firestore();
