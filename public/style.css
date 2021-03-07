@@ -11,3 +11,7 @@
   left: 25px;
   bottom: 200px;
 }
+
+html {
+  overflow: hidden;
+}
