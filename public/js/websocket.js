@@ -1,8 +1,11 @@
 
 /* global describe io*/
 var socket = io();
+var client_id = 0;
 socket.on('connection-approve', function(data){
   console.log("Approved!")
+  client_id = data;
+  console.log("my id is" + client_id);
 })
 
 

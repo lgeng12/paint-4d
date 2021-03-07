@@ -7,8 +7,8 @@ function onLoad() {
   canvas = document.getElementById("canvas");
   context = canvas.getContext("2d");
 
-  canvas.width = 1920;
-  canvas.height = 1080;
+  canvas.width = 1280;
+  canvas.height = 720;
 
   if (navigator.mediaDevices === undefined) {
     navigator.mediaDevices = {};
@@ -98,6 +98,7 @@ function drawId(markers) {
   var corners, corner, x, y, i, j;
 
   context.strokeStyle = "blue";
+  context.font = "30px sans-serif"
   context.lineWidth = 1;
 
   for (i = 0; i !== markers.length; ++i) {
@@ -176,4 +177,4 @@ function updateScenes(markers) {
   }
 }
 
-window.onload = onload;
+window.onload = onLoad;

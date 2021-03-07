@@ -32,10 +32,10 @@ io.sockets.on("connection", newConnection);
 function newConnection(socket) {
   // "socket" now refers to this particular new player's connection
 
-  console.log("new conection: " + socket.id);
+  console.log("new connection: " + socket.id);
 
   // ok you're in
-  socket.emit("connection-approve");
+  socket.emit("connection-approve", socket.id);
   socket.emit("server-update", lines); // Send current list of lines
 
   // what to do when client sends us a message titled 'client-update'
