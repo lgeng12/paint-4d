@@ -17,3 +17,8 @@ socket.on('connection-approve', function(data){
 //   'falaehflbnabu': {points: THREE.Vector3(), color: '#abcdef', width: 1},
 //   'vaivbsoabvirbaivbi': {points: THREE.Vector3(), color: '#abcdef', width: 1},
 // }
+
+
+function showHelp() {
+  $("#helloModal").modal("show");
+}
