@@ -1,4 +1,6 @@
 var randomColor = Math.floor(Math.random()*16777215).toString(16);
+var randomColor2 = hsl(int(randRange(0,359)), 100, 100);
+
 var colorPicker = new iro.ColorPicker("#picker", {
   // Set the size of the color picker
   width: 200,
