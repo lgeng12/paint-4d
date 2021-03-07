@@ -1,7 +1,7 @@
 <!-- This is a static file -->
 <!-- served from your routes in server.js -->
 <!DOCTYPE html>
-<html lang="en" onclick="change_picture()">
+<html lang="en" ontouchstart="change_picture()" ontouchend="change_picture()">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,10 +18,9 @@
     <script src="js/mobileview.js" defer></script>
   </head>
   
-  <body style="height: 75vh; display: flex; flex-flow: column;" >    
-    <div id="tracker">
-      OFF
-    </div>
+  <body style="height: 50vh; display: flex; flex-flow: column;" >    
+    <div id="tracker"></div>
+    <div id="status">OFF</div>
   </body>
 
 </html>

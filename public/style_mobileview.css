@@ -2,57 +2,17 @@
 
 * {
   box-sizing: border-box;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
 }
 
 body {
   font-family: sans-serif;
-  margin: 2em 1em;
-  line-height: 1.5em;
-}
-
-h1 {
-  font-style: italic;
-  color: #373fff;
-  max-width: calc(100% - 5rem);
-  line-height: 1.1;
-}
-
-form {
-  background-color: #eee;
-  display: grid;
-  grid-gap: 1em;
-  padding: 1em;
-  max-width: 40ch;
-}
-
-input {
-  border: 1px solid silver;
-  display: block;
-  font-size: 16px;
-  margin-bottom: 10px;
-  padding: 5px;
-  width: 100%;
-}
-
-form button {
-  background-color: #bbbbf2;
-  border: 2px solid currentColor;
-  border-radius: 0.25em;
-  cursor: pointer;
-  font-size: inherit;
-  line-height: 1.4em;
-  padding: 0.25em 1em;
-  max-width: 20ch;
-}
-
-form button:hover {
-  background-color: lavender;
-}
-
-footer {
-  margin-top: 3em;
-  padding-top: 1.5em;
-  border-top: 1px solid lightgrey;
 }
 
 #tracker {
@@ -64,4 +24,12 @@ footer {
   text-align: center;
   font-size: 5em;
   margin: 5%;
+}
+
+#status {
+  position: absolute;
+  width: 100%;
+  bottom: 40px;
+  text-align: center;
+  font-size: 5em;
 }
