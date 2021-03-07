@@ -2,10 +2,12 @@ var colorPicker = new iro.ColorPicker("#picker", {
   // Set the size of the color picker
   width: 250,
   // Set the initial color to pure red
-  color: "#f00"
+  color: "#ffaa00"
 });
 
 ///////////////////////////////////////////////// SETUP
+
+const socket = io();
 
 var scene = new THREE.Scene();
 var viewSize = 50;
@@ -56,10 +58,10 @@ scene.add(axesHelper);
 
 let clientData = {};
 
-socket.on("server-update", function(packet) {
-  // clientData = packet;
-  // console.log(packet);
-});
+// socket.on("server-update", function(packet) {
+//   // clientData = packet;
+//   console.log(packet);
+// });
 
 function updateCoordinateList(id, coord) {
   
@@ -111,7 +113,7 @@ function updateLine(id, line) { // updates lines passed from servers
   
   // Notify all other clients of updates
   // 'falaehflbnabu': {points: THREE.Vector3(), color: '#abcdef', width: 1},
-  socket.emit('client-update', window[id])
+  // socket.emit('client-update', window[id])
 }
 
 function updateAllLines(lines) {
@@ -133,7 +135,6 @@ function updateSphere(id, coords) {
     var cam_mat = camera.matrixWorld;
     var coordinate = new THREE.Vector3(-coords[0], coords[1], coords[2]);
     var new_coord = coordinate.applyMatrix4(cam_mat);
-    console.log(new_coord);
     window[id].position.x = new_coord.x;
     window[id].position.y = new_coord.y;
     window[id].position.z = new_coord.z;
