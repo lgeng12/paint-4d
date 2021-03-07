@@ -115,7 +115,7 @@ const root = "p4dfiles/";
 // LOADING FILES
 app.get("/db/load", function(req, res) {
   var filename = req.query.filename;
-  var docRef = firestore.doc(root + filename);
+  var docRef = firestore.doc(root);
   var myData;
 
   docRef
@@ -123,6 +123,8 @@ app.get("/db/load", function(req, res) {
     .then(function(doc) {
       if (doc && doc.exists) {
         myData = doc.data();
+        console.log(myData);
+        
       } else {
         res.sendStatus(400);
         return;
