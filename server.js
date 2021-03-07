@@ -5,7 +5,7 @@ require("dotenv").config();
 // express (https://expressjs.com/) is a simple node.js framework for writing servers
 const express = require("express");
 const app = express();
-var server = app.listen(process.env.PORT || 3000);
+var server = app.listen(process.env.PORT || 8080);
 
 
 // socket.io is a simple library for networking
@@ -92,7 +92,7 @@ function sendCursorData() {
 //////////////// FIREBASE STUFF ////////////////
 
 const firebase = require("firebase");
-const root = 'p4dfiles/';
+
 // Required for side-effects
 require("firebase/firestore");
 
@@ -108,14 +108,18 @@ var firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+const firestore = firebase.firestore();
+const root = 'p4dfiles/';
+
 // LOADING FILES
 app.get("/db/load", function (req, res) {
   var filename = req.query.filename;
-  var docRef = firebase.doc(root + filename);
+  var docRef = firestore.doc(root + filename);
+  var myData;
   
   docRef.get().then(function (doc){
     if (doc && doc.exists) {
-      var myData = JSON.parse(doc.data());
+      myData = JSON.parse(doc.data());
     } else {
       res.sendStatus(400);
       return;
@@ -128,17 +132,15 @@ app.get("/db/load", function (req, res) {
 // SAVING FILES
 app.get("/db/save", function (req, res) {
   var filename = req.query.filename;
-  var docRef = firebase.doc(root + filename);
-  var data = JSON.stringify(serverData);
+  var docRef = firestore.doc(root + filename);
+  // var data = JSON.stringify(serverData);
   
-  docRef.set(data)
+  docRef.set(serverData)
     .then(function() {console.log(filename, ' saved!')})
     .catch(function (error) {console.log('Save Error: ', error)});
   
   res.send("success");
 });
-
-var db = firebase.firestore();
 
 
 // make all the files in 'public' available

@@ -189,7 +189,7 @@ function undo() {
   }
 }
 
-function updateCursor(id, coords, cursor_color = 0x9900cc) {
+function updateCursor(id, coords, cursor_color = 0xFF003C) {
   // var obj = scene.getObjectByName(id);
   var obj = window[id];
   
