@@ -59,6 +59,11 @@ function newConnection(socket) {
     socket.broadcast.emit("server-clear", client_id);
     delete serverData[client_id];
   });
+  
+  socket.on("client-undo", function(line_id) {
+    socket.broadcast.emit("server-undo", socket.id, line_id);
+    delete serverData[socket.id][line_id];
+  });
 
   // every couple milliseconds we send to this client
   // the data of everybody else

@@ -80,6 +80,10 @@ socket.on("server-clear", function(other_client_id) {
   }
 });
 
+socket.on("server-undo", function(other_client_id, line_id) {
+  deleteLine(line_id, clientData[other_client_id][line_id], other_client_id);
+});
+
 function updateCoordinateList(line_id, coord) {
   
   if (clientData[client_id] == undefined) {
@@ -165,8 +169,9 @@ function deleteSelfLines() {
 }
 
 function undo() {
-  line_id = lineIDStack.pop();
-  deleteLine()
+  var line_id = lineIDStack.pop();
+  deleteLine(line_id, clientData[client_id][line_id], client_id);
+  socket.emit("client-undo", line_id);
 }
 
 function updateSphere(id, coords) {
