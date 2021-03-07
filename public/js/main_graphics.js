@@ -70,6 +70,7 @@ socket.on("server-update", function(packet) {
 
 socket.on("server-clear", function(other_client_id) {
   let lines = clientData[other_client_id];
+  console.log("deleting for id: " + other_client_id);
   for (var key_id in lines) {
     deleteLine(key_id, lines[key_id], other_client_id);
   }
@@ -137,14 +138,15 @@ function updateAllLines(lines) {
 }
 
 function deleteLine(id, line, other_client_id) {
+  console.log("IA M CALLED");
   var obj = scene.getObjectByName(id);
   if (obj != undefined) {
-    scene.delete(obj);
+    scene.remove(obj);
   }
   if (window[id] != undefined) {
-    delete window.id;
+    delete window[id];
   }
-  delete clientData[other_client_id].id;
+  delete clientData[other_client_id][id];
 }
 
 function deleteSelfLines() {
@@ -152,7 +154,7 @@ function deleteSelfLines() {
   for (var key_id in lines) {
     deleteLine(key_id, lines[key_id], client_id);
   }
-  
+  console.log("deleting for id: " + client_id);
   socket.emit('client-clear', client_id);
 }
 
