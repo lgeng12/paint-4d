@@ -1,8 +1,8 @@
+var randomColor = Math.floor(Math.random()*16777215).toString(16);
 var colorPicker = new iro.ColorPicker("#picker", {
   // Set the size of the color picker
   width: 200,
-  // Set the initial color to pure red
-  color: "#ffaa00"
+  color: randomColor
 });
 
 ///////////////////////////////////////////////// SETUP
@@ -11,21 +11,16 @@ var scene = new THREE.Scene();
 var viewSize = 50;
 var aspectRatio = window.innerWidth / window.innerHeight;
 var camera = new THREE.PerspectiveCamera( 45, aspectRatio, 0.1, 10000 );
-// var camera = new THREE.OrthographicCamera(
-//   (-aspectRatio * viewSize) / 2,
-//   (aspectRatio * viewSize) / 2,
-//   viewSize / 2,
-//   -viewSize / 2,
-//   -1000,
-//   1000
-// );
 scene.add(camera);
 
+function randRange(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
 var mag = 300;
-var off = 100;
-camera.position.x = off + mag * Math.random();
-camera.position.y = off + mag * Math.random();
-camera.position.z = off + mag * Math.random();
+camera.position.x = randRange(-mag, mag);
+camera.position.y = randRange(0, mag);
+camera.position.z = randRange(-mag, mag);
 camera.lookAt(scene.position);
 
 var light = new THREE.AmbientLight(0xffffff, 0.75);
@@ -71,6 +66,13 @@ socket.on("server-update", function(packet) {
   // clientData = Object.assign({}, clientData, packet);
   // updateAllLines(packet[other_client_id]);
   // console.log(clientData);
+});
+
+socket.on("server-clear", function(other_client_id) {
+  let lines = clientData[other_client_id];
+  for (var key_id in lines) {
+    deleteLine(key_id, lines[key_id]);
+  }
 });
 
 function updateCoordinateList(line_id, coord) {
@@ -121,8 +123,8 @@ function updateLine(id, line) { // updates lines passed from servers
   } 
   else { // if exists, update geometry
     
-    window[id].material.color = new THREE.Color( 0xffffff );         
-    window[id].material.needsUpdate = true;
+    // window[id].material.color = new THREE.Color( 0xffffff );         
+    // window[id].material.needsUpdate = true;
     window[id].geometry.setAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
     window[id].geometry.setDrawRange(0, positions.length);
   }
@@ -132,6 +134,11 @@ function updateAllLines(lines) {
   for (var key in lines) {
     updateLine(key, lines[key]);
   }
+}
+
+function deleteLine(id, line) {
+  var obj = scene.getObjectByName(id);
+  if
 }
 
 function updateSphere(id, coords) {
