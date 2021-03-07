@@ -1,10 +1,10 @@
 
-const socket = io();
+const socket = io('https://paint-4d.glitch.me/');
 
 
-socket.on("server-update", lines => {
-  console.log(lines);
-});
+// socket.on("server-update", lines => {
+//   console.log(lines);
+// });
 
 // format:
 // {

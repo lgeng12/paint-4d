@@ -153,9 +153,9 @@ function updateScenes(markers) {
     coord[2] -= 400;
     
     var diff = [current_coord[0] - coord[0], current_coord[1] - coord[1], current_coord[2] - coord[2]];
-    diff = diff.map(x => x / 3);
+    diff = diff.map(x => x / 1.2);
     current_coord = [coord[0]+diff[0], coord[1]+diff[1], coord[2]+diff[2]];
-    coord = current_coord;
+    // coord = current_coord;
     
     var id = markers[0].id;
     let pen_on = id != 1023;

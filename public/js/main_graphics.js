@@ -7,12 +7,10 @@ var colorPicker = new iro.ColorPicker("#picker", {
 
 ///////////////////////////////////////////////// SETUP
 
-const socket = io();
-
 var scene = new THREE.Scene();
 var viewSize = 50;
 var aspectRatio = window.innerWidth / window.innerHeight;
-var camera = new THREE.PerspectiveCamera( 45, aspectRatio, 0.1, 1000 );
+var camera = new THREE.PerspectiveCamera( 45, aspectRatio, 0.1, 10000 );
 // var camera = new THREE.OrthographicCamera(
 //   (-aspectRatio * viewSize) / 2,
 //   (aspectRatio * viewSize) / 2,
