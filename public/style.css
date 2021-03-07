@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Orbitron);
+
 #canvas {
   -moz-transform: scale(-1, 1);
   -webkit-transform: scale(-1, 1);
@@ -26,6 +28,10 @@
 
 html {
   overflow: hidden;
+}
+
+body {
+  font-family: 'Orbitron', courier, sans-serif !important;
 }
 
 #canvas {

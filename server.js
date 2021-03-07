@@ -7,7 +7,6 @@ const express = require("express");
 const app = express();
 var server = app.listen(process.env.PORT || 8080);
 
-
 // socket.io is a simple library for networking
 var io = require("socket.io")(server);
 
@@ -48,23 +47,26 @@ function newConnection(socket) {
     // packet.data == packet["data"]
     // serverData = Object.assign({}, serverData, new_lines);
     for (let client_id in new_lines) {
-      if (serverData[client_id] == undefined)
-        serverData[client_id] = {};
-      serverData[client_id] = Object.assign({}, serverData[client_id], new_lines[client_id]);
+      if (serverData[client_id] == undefined) serverData[client_id] = {};
+      serverData[client_id] = Object.assign(
+        {},
+        serverData[client_id],
+        new_lines[client_id]
+      );
     }
     socket.broadcast.emit("server-update", new_lines);
   });
-  
+
   socket.on("client-clear", function(client_id) {
     socket.broadcast.emit("server-clear", client_id);
     delete serverData[client_id];
   });
-  
+
   socket.on("client-undo", function(line_id) {
     socket.broadcast.emit("server-undo", socket.id, line_id);
     delete serverData[socket.id][line_id];
   });
-  
+
   socket.on("client-cursor", function(cursorPacket) {
     serverCursorData = Object.assign({}, serverCursorData, cursorPacket);
   });
@@ -85,9 +87,8 @@ function newConnection(socket) {
 }
 
 function sendCursorData() {
-  io.emit('server-cursor', serverCursorData);
+  io.emit("server-cursor", serverCursorData);
 }
-
 
 //////////////// FIREBASE STUFF ////////////////
 
@@ -98,50 +99,60 @@ require("firebase/firestore");
 
 // Initialize Cloud Firestore through Firebase
 var firebaseConfig = {
-    apiKey: "AIzaSyChCQ6Oj1zPRiHfIe0bHZWH4M0LXydjSS8",
-    authDomain: "paint4d-9da57.firebaseapp.com",
-    projectId: "paint4d-9da57",
-    storageBucket: "paint4d-9da57.appspot.com",
-    messagingSenderId: "606510408605",
-    appId: "1:606510408605:web:35c5e804ab9dfaac274574"
-  };
+  apiKey: "AIzaSyChCQ6Oj1zPRiHfIe0bHZWH4M0LXydjSS8",
+  authDomain: "paint4d-9da57.firebaseapp.com",
+  projectId: "paint4d-9da57",
+  storageBucket: "paint4d-9da57.appspot.com",
+  messagingSenderId: "606510408605",
+  appId: "1:606510408605:web:35c5e804ab9dfaac274574"
+};
 
 firebase.initializeApp(firebaseConfig);
 
 const firestore = firebase.firestore();
-const root = 'p4dfiles/';
+const root = "p4dfiles/";
 
 // LOADING FILES
-app.get("/db/load", function (req, res) {
+app.get("/db/load", function(req, res) {
   var filename = req.query.filename;
   var docRef = firestore.doc(root + filename);
   var myData;
-  
-  docRef.get().then(function (doc){
-    if (doc && doc.exists) {
-      myData = JSON.parse(doc.data());
-    } else {
-      res.sendStatus(400);
-      return;
-    }
-  });
-  // Convert string back to json
-  res.send(myData);
+
+  docRef
+    .get()
+    .then(function(doc) {
+      if (doc && doc.exists) {
+        myData = doc.data();
+      } else {
+        res.sendStatus(400);
+        return;
+      }
+
+      // Convert string back to json
+      res.send(myData);
+    })
+    .catch(function(error) {
+      console.log("Load Error: ", error);
+    });
 });
 
 // SAVING FILES
-app.get("/db/save", function (req, res) {
+app.get("/db/save", function(req, res) {
   var filename = req.query.filename;
   var docRef = firestore.doc(root + filename);
   // var data = JSON.stringify(serverData);
-  
-  docRef.set(serverData)
-    .then(function() {console.log(filename, ' saved!')})
-    .catch(function (error) {console.log('Save Error: ', error)});
-  
+
+  docRef
+    .set(serverData)
+    .then(function() {
+      console.log(filename, " saved!");
+    })
+    .catch(function(error) {
+      console.log("Save Error: ", error);
+    });
+
   res.send("success");
 });
-
 
 // make all the files in 'public' available
 // https://expressjs.com/en/starter/static-files.html
