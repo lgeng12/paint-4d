@@ -1,27 +1,16 @@
 # PAINT 4D
-## TartanHacks 2021
-## Larry, Cas
+TartanHacks 2021
 
-A server that serves a webpage, its resources, and some data
+Team: Untitled_1 
 
+Casey, Larry, Ravi, Shiva
 
-## Your Project
+Our project is a collaborative AR paint experience. With the power of Three.js, we created a space for people to draw together by waving their phones at a webcam. Computer vision on our website tracks special codes on the phone to capture the 3D location of your hand. We hosted the service using Oracle Cloud and added functionality to save and restore drawings with Firebase. We hope that people use our space to relax, show off their creativity, and have fun with a low-cost yet futuristic AR application.
 
-On the front-end,
+## Run
 
-- Edit `views/index.html` to change the content of the webpage
-- `public/client.js` is the javacript that runs when you load the webpage
-- `public/style.css` is the styles for `views/index.html`
-- Drag in `assets`, like images or music, to add them to your project
-
-On the back-end,
-
-- your app starts at `server.js`
-- add frameworks and packages in `package.json`
-- safely store app secrets in `.env` (nobody can see this but you and people you invite)
-
-Click `Show` in the header to see your app live. Updates to your code will instantly deploy.
-
+On webview
+On 
 
 ## Made by [Glitch](https://glitch.com/)
 
