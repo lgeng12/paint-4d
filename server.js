@@ -5,7 +5,7 @@ require("dotenv").config();
 // express (https://expressjs.com/) is a simple node.js framework for writing servers
 const express = require("express");
 const app = express();
-var server = app.listen(process.env.PORT || 8080);
+var server = app.listen(process.env.PORT || 3000);
 
 // make all the files in 'public' available
 // https://expressjs.com/en/starter/static-files.html
