@@ -86,43 +86,40 @@ function updateLine(id, line) { // updates lines passed from servers
     
     var line_mat = new THREE.LineBasicMaterial({
       color: line.color,
-      linewidth: line.width
+      linewidth: 1
     });
     var line_geometry = new THREE.BufferGeometry();
     var positions = Float32Array.from(line.points);
     line_geometry.setAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
     line_geometry.setDrawRange(0, positions.length);
-    obj = new THREE.Line(line_geometry, line_mat);
-    scene.add( obj );
+    window[id] = new THREE.Line(line_geometry, line_mat);
+    scene.add( window[id] );
     
   } 
   else { // if exists, update geometry
     
-    obj.material.color = new THREE.Color( 0xffffff );         
-    obj.material.needsUpdate = true;
+    window[id].material.color = new THREE.Color( 0xffffff );         
+    window[id].material.needsUpdate = true;
     
     for (var i = 0; i < line.points.length; i++) {
       var tmp = line.points[i];
-      obj.geometry.attributes.position.array[i] = tmp.x;
-      obj.geometry.attributes.position.array[i+1] = tmp.y;
-      obj.geometry.attributes.position.array[i+2] = tmp.z;
+      window[id].geometry.attributes.position.array[i] = tmp.x;
+      window[id].geometry.attributes.position.array[i+1] = tmp.y;
+      window[id].geometry.attributes.position.array[i+2] = tmp.z;
     }
   }
   
   // Notify all other clients of updates
-  // 'falaehflbnabu': {points: THREE.Vector3(), color: '#abcdef', width: 1},
+  // 'falaehflbnabu': {points: THREE.Vector3(), color: '#abcdef'},
   var packet = {};
-  packet[id] = obj.geometry.attributes.position.array;
+  // console.log(window[id].geometry.attributes.position.array);
+  packet[id] = {points: window[id].geometry.attributes.position.array, color: line.color};
+  console.log(packet);
   socket.emit('client-update', packet);
 }
 
 function updateAllLines(lines) {
-  
-  console.log(lines);
-  
   for (var key in lines) {
-    console.log('key: ', key);
-    console.log(lines[key]);
     updateLine(key, lines[key]);
   }
 }
