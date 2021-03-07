@@ -53,37 +53,38 @@ scene.add(axesHelper);
 //   'falaehflbnabu': {points: THREE.Vector3(), color: '#abcdef', width: 1},
 //   'vaivbsoabvirbaivbi': {points: THREE.Vector3(), color: '#abcdef', width: 1},
 // }
-
 var clientData = {};
 
-socket.on("server-update", function(packet) { // packet format: {client id: num, client id, }, }
-  clientData = clientData.map()
-  clientData = Object.assign({}, clientData[client_id], packet[client_id])
+socket.on("server-update", function(packet) {
+  var other_client_id = Object.keys(packet)[0];
+  clientData[other_client_id] = Object.assign({}, clientData[other_client_id], packet[other_client_id])
   // clientData = Object.assign({}, clientData, packet);
-  updateAllLines(packet);
+  updateAllLines(packet[other_client_id]);
   // console.log(clientData);
 });
 
-function updateCoordinateList(id, coord) {
+function updateCoordinateList(line_id, coord) {
   
-  if (clientData[id] == undefined) {
-    clientData[id] = {points: [], color: colorPicker.color.hexString, width: 10}
+  if (clientData[client_id, line_id] == undefined) {
+    clientData[client_id, line_id] = {points: [], color: colorPicker.color.hexString, width: 10}
   }
   
   var cam_mat = camera.matrixWorld;
   var coordinate = new THREE.Vector3(-coord[0], coord[1], coord[2]);
   var new_coord = coordinate.applyMatrix4(cam_mat);
   
-  var cur_line = clientData[id]
+  var cur_line = clientData[line_id]
   cur_line.points.push(new_coord.x);
   cur_line.points.push(new_coord.y);
   cur_line.points.push(new_coord.z);
-  updateLine(id, cur_line)
+  updateLine(line_id, cur_line)
   
   // Notify all other clients of updates
   // 'falaehflbnabu': {points: float32 arr[], color: '#abcdef'},
+  var packet_inner = {}
+  packet_inner[line_id] = cur_line;
   var packet = {}
-  packet[id] = cur_line;
+  packet[client_id] = packet_inner;
   socket.emit('client-update', packet);
 }
 
