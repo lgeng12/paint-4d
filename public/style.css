@@ -59,7 +59,7 @@ html {
   border-radius: 5px;
 }
 
-.cyberpunk:hover, .cyberpunk:active {
+.cyberpunk:hover, .cyberpunk:active, .cyberpunk:focus {
   background-color: #383e65 !important;
   border: 1px solid #defe47;
 }
