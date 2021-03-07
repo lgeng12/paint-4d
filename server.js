@@ -18,7 +18,7 @@ var io = require("socket.io")(server);
 // to send a message:               socket.emit(title,data);
 // to deal with a received message: socket.on(title,function(data){ frob(data); })
 
-var lines = {}; // everyone's data
+var server_data = {}; // everyone's data
 // format:
 // {
 //   'falaehflbnabu': {points: THREE.Vector3(), color: '#abcdef', width: 1},
@@ -36,21 +36,21 @@ function newConnection(socket) {
 
   // ok you're in
   socket.emit("connection-approve", socket.id);
-  socket.emit("server-update", lines); // Send current list of lines
+  socket.emit("server-update", server_data); // Send current list of lines
 
   // what to do when client sends us a message titled 'client-update'
   socket.on("client-update", function(new_lines) {
     // Data packet format:
-    // new_lines is in the exact same format as lines
-    // Assumption: lines in data are new and not already in lines
+    // new_lines is in the exact same format as server_data
+    // Assumption: server_data in data are new and not already in server_data
 
     // CASEY
     // packet.data == packet["data"]
-    lines = Object.assign({}, lines, new_lines);
+    server_data = Object.assign({}, server_data, new_lines);
     socket.broadcast.emit("server-update", new_lines);
   });
   
-  socket.on("client-clear", function(cleared_lines) {
+  socket.on("client-clear", function(cleared_server_data) {
     
   });
 
