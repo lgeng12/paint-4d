@@ -57,9 +57,10 @@ scene.add(axesHelper);
 let clientData = {};
 
 socket.on("server-update", function(packet) {
+  console.log('clientData', clientData);
+  console.log('packet', packet);
   clientData = Object.assign({}, clientData, packet);
-  // updateAllLines(clientData);
-  console.log(clientData);
+  updateAllLines(clientData);
 });
 
 function updateCoordinateList(id, coord) {
@@ -112,7 +113,9 @@ function updateLine(id, line) { // updates lines passed from servers
   
   // Notify all other clients of updates
   // 'falaehflbnabu': {points: THREE.Vector3(), color: '#abcdef', width: 1},
-  socket.emit('client-update', {type: 'lines', data: {id: window[id]}});
+  var packet = {};
+  packet[id] = window[id];
+  socket.emit('client-update', {type: 'lines', data: packet});
 }
 
 function updateAllLines(lines) {
@@ -142,35 +145,10 @@ function updateSphere(id, coords) {
   }
 }
 
-///////////////////////////////////////////////// GUI CONTROLS
-
-// var guiControls = new function() {
-//   this.speed = 1;
-//   this.weight = 0.1;
-// }
-
-// var gui = new dat.GUI();
-// var changeSpeed = gui.add(guiControls, 'speed', 1, 10).step(1);
-// var toggleAssembly = gui.add(guiControls, 'showAssembly');
-
 ///////////////////////////////////////////////// ANIMATE LOOP
-
-
 
 function animate() {
   requestAnimationFrame(animate);
-
-  //   renderer.setClearColor( guiControls.background, 1 );
-  //   clear.color.setHex( guiControls.assembly );
-  //   clear2.color.setHex( guiControls.assembly );
-  //   line_mat.color.setHex( guiControls.stroke );
-  //   color.color.setHex( guiControls.stroke );
-
-  //   updateAssembly( guiControls.play );
-  //   if (index != -1) path.geometry.attributes.position.needsUpdate = true;
-
-  //   updateLines();
-  
   renderer.render(scene, camera);
 }
 animate();

@@ -51,6 +51,7 @@ function newConnection(socket) {
       // packet.data == packet["data"]
       var new_lines = packet["data"];
       lines = Object.assign({}, lines, new_lines);
+      console.log(lines);
     }
 
     let rockets = io.sockets.connected;
