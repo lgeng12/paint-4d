@@ -1,27 +1,30 @@
 <!-- This is a static file -->
 <!-- served from your routes in server.js -->
 <!DOCTYPE html>
-<html lang="en" onclick="change_picture()">
+<html lang="en" ontouchstart="on_picture()" ontouchend="off_picture()">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="A cool thing made with Glitch">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta name="description" content="Draw in 3D using your phone!">
 
-    <title>TARTANHACKS2021</title>
-    <link rel="stylesheet" href="/style.css">
-
+    <title>Paint4D</title>
+    
+<!--     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.6.0/dist/darkly/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="/style_mobileview.css">
+    
+    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="js/mobileview.js" defer></script>
   </head>
   
-  <body style="height: 75vh; display: flex; flex-flow: column;" >
-    
-    
-    <div id="tracker" >
-      OFF
-    </div>
-    
+  <body style="height: 50vh; display: flex; flex-flow: column; overflow:hidden;" >    
+    <div id="tracker-off"></div>
+    <div id="tracker-on"></div>
+    <div id="status">OFF</div>
   </body>
-             
+
 </html>

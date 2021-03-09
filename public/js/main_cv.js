@@ -58,8 +58,15 @@ function tick() {
 
     var markers = detector.detect(imageData);
     drawCorners(markers);
-    drawId(markers);
+    // drawId(markers);
     updateScenes(markers);
+    
+    if(markers.length > 0) {
+      // hightlight video frame
+      canvas.style.border = "thick solid #FF003CFF";
+    } else {
+      canvas.style.border = "thick solid #00000000";
+    }
   }
 }
 
@@ -98,6 +105,7 @@ function drawId(markers) {
   var corners, corner, x, y, i, j;
 
   context.strokeStyle = "blue";
+  context.font = "30px sans-serif"
   context.lineWidth = 1;
 
   for (i = 0; i !== markers.length; ++i) {
@@ -117,6 +125,22 @@ function drawId(markers) {
   }
 }
 
+// copied from codehandbook.org
+function generate_random_string(string_length){
+    let random_string = '';
+    let random_ascii;
+    for(let i = 0; i < string_length; i++) {
+        random_ascii = Math.floor((Math.random() * 25) + 97);
+        random_string += String.fromCharCode(random_ascii)
+    }
+    return random_string
+}
+
+
+var time_for_new_line = true;
+var line_id = "firstline";
+const id_length = 20;
+var current_coord =[0, 0, 0];
 function updateScenes(markers) {
   // var corners, corner, pose, i;
   var corners, corner, i;
@@ -133,10 +157,31 @@ function updateScenes(markers) {
 
     pose = posit.pose(corners);
     var coord = pose.bestTranslation;
+    coord[2] /= 10;
+    coord[2] -= 400;
+    
+    var diff = [coord[0] - current_coord[0], coord[1] - current_coord[1], coord[2] - current_coord[2]];
+    diff = diff.map(x => x / 15);
+    current_coord = [current_coord[0]+diff[0], current_coord[1]+diff[1], current_coord[2]+diff[2]];
+    coord = current_coord;
+    
     var id = markers[0].id;
-    var pen_on = id != 1023;
-
-    console.log("Coordinates of phone: " + coord);
+    let pen_on = id != 1023;
+    
+    if (!pen_on) {
+      time_for_new_line = true;
+    }
+    
+    else {
+      if (time_for_new_line) {
+        time_for_new_line = false;
+        line_id = generate_random_string(id_length);
+        lineIDStack_push(line_id);
+      }
+      updateCoordinateList(line_id, coord);
+    }
+    // console.log("Coordinates of phone: " + coord);
+    updateSelfCursor(coord);
   }
 }
 

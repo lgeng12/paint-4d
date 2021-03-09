@@ -1,22 +1,27 @@
+var randomColor = 'hsl(' + Math.round(randRange(0,359)).toString() + ', 100%, 50%)';
+
+var colorPicker = new iro.ColorPicker("#picker", {
+  // Set the size of the color picker
+  width: 200,
+  color: randomColor
+});
+
 ///////////////////////////////////////////////// SETUP
 
 var scene = new THREE.Scene();
 var viewSize = 50;
 var aspectRatio = window.innerWidth / window.innerHeight;
-//var camera = new THREE.PerspectiveCamera( 75, aspectRatio, 0.1, 1000 );
-var camera = new THREE.OrthographicCamera(
-  (-aspectRatio * viewSize) / 2,
-  (aspectRatio * viewSize) / 2,
-  viewSize / 2,
-  -viewSize / 2,
-  -1000,
-  1000
-);
+var camera = new THREE.PerspectiveCamera( 45, aspectRatio, 0.1, 10000 );
 scene.add(camera);
 
-camera.position.x = 10;
-camera.position.y = 5;
-camera.position.z = 15;
+function randRange(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+var mag = 300;
+camera.position.x = randRange(-mag, mag);
+camera.position.y = randRange(0, mag);
+camera.position.z = randRange(-mag, mag);
 camera.lookAt(scene.position);
 
 var light = new THREE.AmbientLight(0xffffff, 0.75);
@@ -26,15 +31,106 @@ var directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
 directionalLight.position = (1, 1, 1);
 scene.add(directionalLight);
 
-var renderer = new THREE.WebGLRenderer();
+var renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
 // var renderer = new THREE.SVGRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
-renderer.setClearColor(0xd1e3ff, 1);
+renderer.setClearColor( 0x000000, 0 ); // the default
 
+
+var gridHelper = new THREE.GridHelper( 100, 10, 0x444444, 0x444444);
+scene.add( gridHelper );
 var controls = new THREE.OrbitControls(camera, renderer.domElement);
 var axesHelper = new THREE.AxesHelper(250);
 scene.add(axesHelper);
+
+/// retrowave
+this.materialShaders = [];
+function addRoad() {
+  let roadGeometry = new THREE.PlaneBufferGeometry(12, 300, 0, 0);
+  roadGeometry.translate(0, 110, 0.1);
+  roadGeometry.rotateX(-Math.PI * 0.5);
+
+  let roadMaterial = new THREE.MeshBasicMaterial({
+      color: 0x03353b,
+      transparent: true,
+      opacity: 0.7,
+  });
+
+  // Add road to scene
+  this.road = new THREE.Mesh(roadGeometry, roadMaterial);
+  this.scene.add(this.road);
+}
+
+function addFloor() {
+  let floorGeometry = new THREE.PlaneBufferGeometry(300, 300, 0, 0);
+  floorGeometry.translate(0, 110, 0);
+  floorGeometry.rotateX(-Math.PI * 0.5);
+  let floorMaterial = new THREE.MeshBasicMaterial({
+      color: 0xff1e99,
+  });
+  this.createGridMaterial(floorMaterial);
+
+  // Add floor to scene
+  this.grid = new THREE.Mesh(floorGeometry, floorMaterial);
+  this.scene.add(grid);
+}
+
+function createGridMaterial(materialVar) {
+  materialVar.onBeforeCompile = (shader) => {
+       shader.uniforms.speed = {
+           value: this.animationSpeed,
+       };
+       shader.uniforms.time = {
+           value: 0,
+       };
+       shader.vertexShader =
+           `
+           uniform float speed;
+           uniform float time;
+           varying vec3 vPos;
+           ` + shader.vertexShader;
+       shader.vertexShader = shader.vertexShader.replace(
+           `#include <begin_vertex>`,
+           `#include <begin_vertex>
+
+               vec2 tuv = uv;
+               float t = time * 0.001 * speed;
+               vPos = transformed;
+               `
+       );
+       shader.fragmentShader =
+           `
+           #extension GL_OES_standard_derivatives : enable
+
+           uniform float speed;
+           uniform float time;
+           varying vec3 vPos;
+
+           float line(vec3 position, float width, vec3 step){
+               vec3 tempCoord = position / step;
+
+               vec2 coord = tempCoord.xz;
+               coord.y -= time * speed / 2.;
+
+               vec2 grid = abs(fract(coord - 0.5) - 0.5) / fwidth(coord * width);
+               float line = min(grid.x, grid.y);
+
+               return min(line, 1.0);
+           }
+           ` + shader.fragmentShader;
+       shader.fragmentShader = shader.fragmentShader.replace(
+           `gl_FragColor = vec4( outgoingLight, diffuseColor.a );`,
+           `
+               float l = line(vPos, 1.0, vec3(2.0)); // grid line width
+               vec3 base = mix(vec3(0, 0.75, 0), vec3(0), smoothstep(0., 0., abs(vPos.x))); //ROAD COLOR
+               vec3 c = mix(outgoingLight, base, l);
+               gl_FragColor = vec4(c, diffuseColor.a);
+               `
+         );
+         this.materialShaders.push(shader);
+     };
+}
 
 ///////////////////////////////////////////////// DATA STRUCTURES
 
@@ -43,81 +139,194 @@ scene.add(axesHelper);
 //   'falaehflbnabu': {points: THREE.Vector3(), color: '#abcdef', width: 1},
 //   'vaivbsoabvirbaivbi': {points: THREE.Vector3(), color: '#abcdef', width: 1},
 // }
+var clientData = {};
+var clientCursorData = {};
+var lineIDStack = [];
 
-let clientData = {};
-
-function updateCoordinateList(id, coord) {
-  var cur_line = clientData[id]
-  cur_line.points.push(coord);
-  updateLine(cur_line)
+function lineIDStack_push(line_id) {
+  lineIDStack.push(line_id);
 }
 
-function updateLine(line) { // updates lines passed from servers
+socket.on("server-update", function(packet) {
+  for (let other_client_id in packet) {
+    if (clientData[other_client_id] == undefined)
+      clientData[other_client_id] = {};
+    clientData[other_client_id] = Object.assign({}, clientData[other_client_id], packet[other_client_id]);
+    updateAllLines(packet[other_client_id]);
+  }
+  // var other_client_id = Object.keys(packet)[0];
+  //  if (clientData[other_client_id] == undefined)
+  //   clientData[other_client_id] = {};
+  // clientData[other_client_id] = Object.assign({}, clientData[other_client_id], packet[other_client_id])
+  // clientData = Object.assign({}, clientData, packet);
+  // updateAllLines(packet[other_client_id]);
+  // console.log(clientData);
+});
+
+socket.on("server-clear", function(other_client_id) {
+  let lines = clientData[other_client_id];
+  for (var key_id in lines) {
+    deleteLine(key_id, lines[key_id], other_client_id);
+  }
+});
+
+socket.on("server-undo", function(other_client_id, line_id) {
+  deleteLine(line_id, clientData[other_client_id][line_id], other_client_id);
+});
+
+socket.on("server-cursor", function(cursorPacket) {
+  for (var other_client_id in cursorPacket) {
+    if (other_client_id !== client_id)
+      updateCursor(other_client_id + "cursor", cursorPacket[other_client_id]);
+  }
+});
+
+socket.on("server-cursor-clear", function(other_client_id) {
+  deleteCursor(other_client_id);
+});
+
+function updateCoordinateList(line_id, coord) {
   
-  var obj = scene.getObjectByName(line.id)
+  if (clientData[client_id] == undefined) {
+    clientData[client_id] = {};
+  }
+  if (clientData[client_id][line_id] == undefined) {
+    clientData[client_id][line_id] = {points: [], color: colorPicker.color.hexString, width: 10}
+  }
   
-  if (!obj) { // If not created, create
+  var cam_mat = camera.matrixWorld;
+  var coordinate = new THREE.Vector3(-coord[0], coord[1], coord[2]);
+  var new_coord = coordinate.applyMatrix4(cam_mat);
+  
+  var cur_line = clientData[client_id][line_id]
+  cur_line.points.push(new_coord.x);
+  cur_line.points.push(new_coord.y);
+  cur_line.points.push(new_coord.z);
+  updateLine(line_id, cur_line)
+  
+  // Notify all other clients of updates
+  // 'falaehflbnabu': {points: float32 arr[], color: '#abcdef'},
+  var packet_inner = {}
+  packet_inner[line_id] = cur_line;
+  var packet = {}
+  packet[client_id] = packet_inner;
+  socket.emit('client-update', packet);
+}
+
+function updateLine(id, line) { // updates lines passed from servers
+  
+  var obj = scene.getObjectByName(id);
+  var positions = Float32Array.from(line.points);
+  
+  if (obj == undefined) { // If not created, create
     
     var line_mat = new THREE.LineBasicMaterial({
       color: line.color,
-      linewidth: line.width
+      linewidth: 1
     });
     var line_geometry = new THREE.BufferGeometry();
-    var positions = new Float32Array.from(line.points);
     line_geometry.setAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
-    window[line.id] = new THREE.Line(line_geometry, line_mat);
-    scene.add( window[line.id] );
+    line_geometry.setDrawRange(0, positions.length);
+    window[id] = new THREE.Line(line_geometry, line_mat);
+    
+    obj = window[id];
+    obj.name = id;
+    scene.add(obj);
+    // scene.add( window[id] );
     
   } 
   else { // if exists, update geometry
     
-    window[line.id].material.color = new THREE.Color( 0xffffff );         
-    window[line.id].material.needsUpdate = true;
-    
-    for (var i = 0; i < line.points.length; i++) {
-      var tmp = line.points[i];
-      window[line.id].geometry.attributes.position.array[i] = tmp.x;
-      window[line.id].geometry.attributes.position.array[i+1] = tmp.y;
-      window[line.id].geometry.attributes.position.array[i+2] = tmp.z;
-    }
+    // window[id].material.color = new THREE.Color( 0xffffff );         
+    // window[id].material.needsUpdate = true;
+    window[id].geometry.setAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
+    window[id].geometry.setDrawRange(0, positions.length);
   }
 }
 
 function updateAllLines(lines) {
-  for (var i = 0; i < lines.length; i++) {
-    updateLine(lines[i]);
+  for (var key in lines) {
+    updateLine(key, lines[key]);
   }
 }
 
-///////////////////////////////////////////////// GUI CONTROLS
+function deleteLine(id, line, other_client_id) {
+  var obj = scene.getObjectByName(id);
+  if (obj != undefined) {
+    scene.remove(obj);
+  }
+  if (window[id] != undefined) {
+    delete window[id];
+  }
+  delete clientData[other_client_id][id];
+}
 
-// var guiControls = new function() {
-//   this.speed = 1;
-//   this.weight = 0.1;
-// }
+function deleteSelfLines() {
+  let lines = clientData[client_id];
+  for (var key_id in lines) {
+    deleteLine(key_id, lines[key_id], client_id);
+  }
+  socket.emit('client-clear', client_id);
+}
 
-// var gui = new dat.GUI();
-// var changeSpeed = gui.add(guiControls, 'speed', 1, 10).step(1);
-// var toggleAssembly = gui.add(guiControls, 'showAssembly');
+function undo() {
+  if (lineIDStack.length > 0) {
+    var line_id = lineIDStack.pop();
+    deleteLine(line_id, clientData[client_id][line_id], client_id);
+    socket.emit("client-undo", line_id);
+  }
+}
+
+function updateCursor(id, coords, cursor_color = 0xFF003C) {
+  // var obj = scene.getObjectByName(id);
+  var obj = window[id];
+  
+  if (obj == undefined) {
+    var sphere_geometry = new THREE.SphereGeometry(1, 32, 32);
+    window[id] = new THREE.Mesh(sphere_geometry, new THREE.MeshBasicMaterial( {color: cursor_color, transparent: true, opacity: 0.5} ));
+    obj = window[id];
+    obj.name = id;
+    scene.add(obj);
+  }
+  // var cam_mat = camera.matrixWorld;
+  // var coordinate = new THREE.Vector3(-coords[0], coords[1], coords[2]);
+  // var new_coord = coordinate.applyMatrix4(cam_mat);
+  window[id].position.x = coords[0];
+  window[id].position.y = coords[1];
+  window[id].position.z = coords[2];
+  clientCursorData[id] = [coords[0], coords[1], coords[2]];
+}
+
+function updateSelfCursor(coords) {
+  var cursor_id = client_id + "cursor";
+  
+  var cam_mat = camera.matrixWorld;
+  var coordinate = new THREE.Vector3(-coords[0], coords[1], coords[2]);
+  var new_coord = coordinate.applyMatrix4(cam_mat);
+  
+  updateCursor(cursor_id, [new_coord.x, new_coord.y, new_coord.z], 0xffffff);
+  
+  var cursorPacket = {};
+  cursorPacket[client_id] = clientCursorData[cursor_id];
+  socket.emit("client-cursor", cursorPacket);
+}
+
+function deleteCursor(other_client_id) {
+  var id = other_client_id + "cursor";
+  var obj = scene.getObjectByName(id);
+  if (obj != undefined) {
+    scene.remove(obj);
+  }
+  if (window[id] != undefined) {
+    delete window[id];
+  }
+  delete clientCursorData[other_client_id];
+}
 
 ///////////////////////////////////////////////// ANIMATE LOOP
 
-
-
 function animate() {
   requestAnimationFrame(animate);
-
-  //   renderer.setClearColor( guiControls.background, 1 );
-  //   clear.color.setHex( guiControls.assembly );
-  //   clear2.color.setHex( guiControls.assembly );
-  //   line_mat.color.setHex( guiControls.stroke );
-  //   color.color.setHex( guiControls.stroke );
-
-  //   updateAssembly( guiControls.play );
-  //   if (index != -1) path.geometry.attributes.position.needsUpdate = true;
-
-  // updateLines();
-  
   renderer.render(scene, camera);
 }
 animate();

@@ -1,20 +1,14 @@
 
 // tracker icon changing
-function change_picture() {
-  var tracker = document.getElementById("tracker");
-  console.log(name);
-  var name = tracker.style.backgroundImage;
-  tracker.style.backgroundImage = name.endsWith("assets/aruco-220.svg\")") ? "url(\"assets/aruco-1023.svg\")" : "url(\"assets/aruco-220.svg\")";
-  tracker.innerHTML = name.endsWith("assets/aruco-220.svg\")") ? "OFF" : "ON";
-  openFullscreen();
+function on_picture() {
+  document.getElementById("tracker-off").style.display = "none";
+  document.getElementById("tracker-on").style.display = "initial";
+  document.getElementById("status").innerHTML = "ON";
 }
 
-// Open fullscreen
-function openFullscreen() {
-  var doc = document.documentElement;
-  if (doc.requestFullscreen) {
-    doc.requestFullscreen();
-  } else if (doc.webkitRequestFullscreen) { /* Safari */
-    doc.webkitRequestFullscreen();
-  }
+// tracker icon changing
+function off_picture() {
+  document.getElementById("tracker-on").style.display = "none";
+  document.getElementById("tracker-off").style.display = "initial";
+  document.getElementById("status").innerHTML = "OFF";
 }

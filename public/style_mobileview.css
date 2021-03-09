@@ -1,0 +1,51 @@
+/* this file is loaded by index.html and styles the page */
+
+* {
+  box-sizing: border-box;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+html {
+  height: 100vh;
+}
+
+body {
+  font-family: sans-serif;
+}
+
+#tracker-off {
+  background-image: url(assets/aruco-1023.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  flex-grow: 1;
+  text-align: center;
+  font-size: 5em;
+  margin: 5%;
+}
+
+#tracker-on {
+  background-image: url(assets/aruco-220.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  flex-grow: 1;
+  text-align: center;
+  font-size: 5em;
+  margin: 5%;
+  display: none;
+}
+
+#status {
+  position: absolute;
+  width: 100%;
+  bottom: 40px;
+  text-align: center;
+  font-size: 5em;
+}

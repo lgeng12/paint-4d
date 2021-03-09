@@ -3,42 +3,180 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="A cool thing made with Glitch">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Draw in 3D using your phone!" />
 
-    <title>TARTANHACKS2021</title>
-    <link rel="stylesheet" href="/style.css">
+    <title>Paint4D</title>
 
-    
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootswatch@4.6.0/dist/darkly/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="/style.css" />
+
+    <!--     Libraries -->
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.socket.io/3.1.1/socket.io.min.js"
+      integrity="sha384-gDaozqUvc4HTgo8iZjwth73C6dDDeOJsAgpxBcMpZYztUfjHXpzrpdrHRdVp8ySO"
+      crossorigin="anonymous"
+    ></script>
     <script src="js/libs/three.min.js"></script>
     <script src="js/libs/OrbitControl.js"></script>
-    <script src="js/libs/dat.gui.min.js"></script>
-    <script src="js/libs/polyfill.js"></script> 
-    <script src="js/svd.js"></script> 
-    <script src="js/posit1.js"></script> 
-    <script src="js/cv.js"></script> 
-    <script src="js/aruco.js"></script> 
-    <script src="https://meet.jit.si/external_api.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+    <script src="js/libs/polyfill.js"></script>
+    <script src="js/svd.js"></script>
+    <script src="js/posit1.js"></script>
+    <script src="js/cv.js"></script>
+    <script src="js/aruco.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
+    <!--     <script src="https://meet.jit.si/external_api.js"></script> -->
 
-    
-    <script src="js/main_graphics.js" defer></script>    
+    <!--     Our Code -->
+    <script src="js/websocket.js" defer></script>
     <script src="js/main_cv.js" defer></script>
-<!--     <script src="js/video_conf.js" defer></script> -->
+    <script src="js/main_graphics.js" defer></script>
+    <script src="js/load_save.js" defer></script>
+    <!--     <script src="js/video_conf.js" defer></script> -->
   </head>
-  
+
   <body>
-
-  <center>
+    <div id="picker"></div>
     <video id="video" autoplay="true" style="display:none;"></video>
-    <div style="position: absolute; right: 0; top: 0; height: 100vh; display: flex; flex-flow: column;">
-      <canvas id="canvas" style="width:320px; height:180px;"></canvas>
-<!--       <div id="video_container" style="height: auto; width: 100%; flex-grow: 1"/> -->
+    <div
+      style="position: absolute; right: 0; top: 0; display: flex; flex-flow: column;"
+    >
+      <canvas id="canvas"></canvas>
+      <!--       <div id="video_container" style="height: auto; width: 100%; flex-grow: 1"/> -->
     </div>
-  </center>
+    <div
+      style="position: absolute; bottom: 40px; left: 0; right: 0; margin-left: auto; margin-right: auto; text-align: center;"
+    >
+      <button
+        onclick="deleteSelfLines()"
+        id="clear_btn"
+        class="btn btn-default btn-lg d-inline-block mr-1 cyberpunk"
+        style="width: 150px"
+      >
+        Clear my lines
+      </button>
+      <button
+        id="undo_btn"
+        onclick="undo()"
+        class="btn btn-default btn-lg d-inline-block ml-1 mr-1 cyberpunk"
+        style="width: 150px;"
+      >
+        Undo
+      </button>
+      <button
+        onclick="save()"
+        type="button"
+        class="btn btn-default btn-lg d-inline-block mr-1 ml-1 cyberpunk"
+        style="width: 150px"
+      >
+        Save
+      </button>
+      <button
+        onclick="load()"
+        type="button"
+        class="btn btn-default btn-lg d-inline-block ml-1 cyberpunk"
+        style="width: 150px"
+      >
+        Load
+      </button>
+    </div>
+    <div
+      style="position: absolute; left: 20px; bottom: 20px; display: flex; flex-flow: column;"
+      class="pt-5 pr-5 pl-2 pb-2"
+      id="qr"
+    >
+      <img
+        style="border-radius: 5px;"
+        src="https://cdn.glitch.com/61d45de3-51d7-4ec7-a706-fb5157746209%2Fpaint4dQRcode2.png?v=1615135275911"
+        width="100px"
+      />
+    </div>
 
-</body>
-             
+    <div
+      class="modal fade"
+      id="loadfilemodal"
+      tabindex="-1"
+      role="dialog"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Load a file</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" id="loadfilemodal-content"></div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="helloModal"
+      tabindex="-1"
+      role="dialog"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Welcome to Paint4D!</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <strong>Instructions (Please use Google Chrome!)</strong>
+            <ol>
+              <li> Enable your computer's camera access<br>(camera feeds are not shared) </li>
+              <li> Hover over the QR code and scan with your phone </li>
+              <li> Point your phone screen at your computer's webcam </li>
+              <li> Press and hold on your phone screen to draw </li>
+              <li> Move your phone around to create a line </li>
+              <li> Try loading an example drawing! </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div style="position: absolute; top: 20px; left: 20px;">
+      <button type="button" class="btn btn-outline-info" onclick="showHelp()">
+        Help
+      </button>
+    </div>
+    
+  </body>
 </html>

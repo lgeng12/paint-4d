@@ -159,7 +159,7 @@ packages:
       cors: 2.8.5
       debug: 4.3.1
       engine.io-parser: 4.0.2
-      ws: 7.4.3
+      ws: 7.4.4
     dev: false
     engines:
       node: '>=10.0.0'
@@ -507,7 +507,7 @@ packages:
       node: '>= 0.8'
     resolution:
       integrity: sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
-  /ws/7.4.3:
+  /ws/7.4.4:
     dev: false
     engines:
       node: '>=8.3.0'
@@ -515,7 +515,7 @@ packages:
       bufferutil: ^4.0.1
       utf-8-validate: ^5.0.2
     resolution:
-      integrity: sha512-hr6vCR76GsossIRsr8OLR9acVVm1jyfEWvhbNjtgPOrfvAlKzvyeg/P6r8RuDjRyrcQoPQT7K0DGEPc7Ae6jzA==
+      integrity: sha512-Qm8k8ojNQIMx7S+Zp8u/uHOx7Qazv3Yv4q68MiWWWOJhiwG5W3x7iqmRtJo8xxrciZUY4vRxUTJCKuRnF28ZZw==
 registry: 'https://registry.npmjs.org/'
 shrinkwrapMinorVersion: 9
 shrinkwrapVersion: 3
